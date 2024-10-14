@@ -13,4 +13,7 @@ if __name__ == "__main__":
     grafo.adicionar_aresta(2, 3)
     grafo.adicionar_aresta(1, 4)
 
+    print(f"\nMatriz Adjacência :\n")
     grafo.mostrar_matriz_adjacencia()
+    print(f"\nMatriz Incidência:\n")
+    grafo.mostrar_matriz_incidencia()

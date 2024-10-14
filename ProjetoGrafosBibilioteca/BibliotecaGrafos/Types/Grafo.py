@@ -84,3 +84,27 @@ class Grafo:
             for j in range(tamanho):
                 print(matriz_adjacencia[i][j], end=" ")
             print()
+
+    def mostrar_matriz_incidencia(self):
+        qtdVertices = len(self.vertices)
+        qtdArestas = len(self.arestas)
+
+        matriz_incidencia = [[0] * qtdArestas for _ in range(qtdVertices)]
+
+        for i, vertice in enumerate(self.vertices):
+            for j, aresta in enumerate(self.arestas):
+                if aresta.get_inicio() == vertice:
+                    matriz_incidencia[i][j] = -1
+                elif aresta.get_fim() == vertice:
+                    matriz_incidencia[i][j] = 1
+
+        print("  ", end="")
+        for idx, _ in enumerate(self.arestas):
+            print(f"A{idx + 1}", end=" ")
+        print()
+
+        for i, vertice in enumerate(self.vertices):
+            print(vertice.get_valor_vertice(), end=" ")
+            for j in range(qtdArestas):
+                print(matriz_incidencia[i][j], end=" ")
+            print()
