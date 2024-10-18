@@ -13,6 +13,9 @@ class Vertice:
 
     def get_arestas_de_entrada(self):
         return self.arestas_de_entrada
+    
+    def get_arestas_de_saida(self):
+        return self.arestas_de_saida
 
     def adicionar_aresta_de_entrada(self, aresta):
         self.arestas_de_entrada.append(aresta)
@@ -31,6 +34,7 @@ class Aresta:
 
     def set_inicio(self, inicio):
         self.inicio = inicio
+
 
     def get_fim(self):
         return self.fim
@@ -51,8 +55,13 @@ class Grafo:
     def adicionar_aresta(self, inicio_aresta, fim_aresta):
         vertice_inicio = self.get_vertice(inicio_aresta)
         vertice_fim = self.get_vertice(fim_aresta)
-        nova_aresta = Aresta(vertice_inicio, vertice_fim)
-        self.arestas.append(nova_aresta)
+    
+        if vertice_inicio is not None and vertice_fim is not None:
+            nova_aresta = Aresta(vertice_inicio, vertice_fim)
+            self.arestas.append(nova_aresta)
+        
+            vertice_inicio.adicionar_aresta_de_saida(nova_aresta)
+            vertice_fim.adicionar_aresta_de_entrada(nova_aresta)
 
     def get_vertice(self, valor_vertice):
         for vertice in self.vertices:
@@ -108,3 +117,19 @@ class Grafo:
             for j in range(qtdArestas):
                 print(matriz_incidencia[i][j], end=" ")
             print()
+
+
+    def mostrar_lista_adjacencia(self):
+        listasDeAdjacencia = []
+
+        for vertice in self.vertices:
+            arestasDeSaidaVertice = vertice.get_arestas_de_saida() 
+            listaAdjacenciaDoVertice = []
+        
+            for aresta in arestasDeSaidaVertice:
+                listaAdjacenciaDoVertice.append(aresta.get_fim().get_valor_vertice()) 
+
+            listasDeAdjacencia.append(listaAdjacenciaDoVertice) 
+
+        for i, vertice in enumerate(self.vertices):
+            print(f"Vértice {vertice.get_valor_vertice()}: {listasDeAdjacencia[i]}")
