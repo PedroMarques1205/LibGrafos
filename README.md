@@ -6,10 +6,8 @@ Este repositório contém o trabalho acadêmico de **Manipulação de Grafos**, 
 
 ## 👩🏻‍💻 Alunos
 
-- Nome 1
-- Nome 2
-- Nome 3
-- Nome 4
+- Pedro Henrique Marques de Oliveira
+- Juliana Parreiras Guimarães da Cunha
 
 ---
 
