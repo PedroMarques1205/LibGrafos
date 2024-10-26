@@ -24,3 +24,7 @@ if __name__ == "__main__":
 
     print(f"\nLista Adjacência:\n")
     grafo.mostrar_lista_adjacencia()
+
+    print(f"\n \n")
+    print(grafo.verificar_adjacencia_entre_vertices('a','b'))
+    print(grafo.verificar_adjacencia_entre_vertices('a','e'))
