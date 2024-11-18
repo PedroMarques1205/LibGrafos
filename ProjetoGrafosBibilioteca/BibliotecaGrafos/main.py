@@ -17,7 +17,7 @@ if __name__ == "__main__":
     grafo.adicionar_aresta('b', 'e')
     grafo.adicionar_aresta('d', 'e')
 
-    print(f"\nMatriz Adjacência :\n")
+    print(f"\nMatriz Adjacência:\n")
     grafo.mostrar_matriz_adjacencia()
     print(f"\nMatriz Incidência:\n")
     grafo.mostrar_matriz_incidencia()
@@ -26,5 +26,8 @@ if __name__ == "__main__":
     grafo.mostrar_lista_adjacencia()
 
     print(f"\n \n")
-    print(grafo.verificar_adjacencia_entre_vertices('a','b'))
-    print(grafo.verificar_adjacencia_entre_vertices('a','e'))
+    print(grafo.eh_fortemente_conexo())
+    print(grafo.eh_semi_fortemente_conexo())
+    print(grafo.eh_simplesmente_conexo())
+
+    print(grafo.contar_componentes_fortemente_conexos())

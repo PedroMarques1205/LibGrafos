@@ -42,11 +42,12 @@ class Vertice:
 
 
 class Aresta:
-    def __init__(self, inicio, fim, rotulo=None, peso=1):
+    def __init__(self, inicio, fim, rotulo, peso):
         self.inicio = inicio
         self.fim = fim
         self.rotulo = rotulo
         self.peso = peso
+        
 
     def get_inicio(self):
         return self.inicio
@@ -85,6 +86,9 @@ class Grafo:
     def adicionar_aresta(self, inicio_aresta, fim_aresta, rotulo=None, peso=1):
         vertice_inicio = self.get_vertice(inicio_aresta)
         vertice_fim = self.get_vertice(fim_aresta)
+
+        if rotulo is None:
+            rotulo = f"{inicio_aresta}-{fim_aresta}"
 
         if vertice_inicio is not None and vertice_fim is not None:
             nova_aresta = Aresta(vertice_inicio, vertice_fim, rotulo, peso)
@@ -144,9 +148,9 @@ class Grafo:
                 elif aresta.get_fim() == vertice:
                     matriz_incidencia[i][j] = 1
 
-        print("  ", end="")
-        for idx, _ in enumerate(self.arestas):
-            print(f"A{idx + 1}", end=" ")
+        print("   ", end="")
+        for aresta in self.arestas:
+            print(aresta.get_rotulo(), end=" ")
         print()
 
         for i, vertice in enumerate(self.vertices):
@@ -174,4 +178,103 @@ class Grafo:
         aresta = self.get_aresta(valor_vertice_inicial, valor_vertice_final)
         return aresta is not None
 
+    def remover_aresta(self, valor_vertice_inicio, valor_vertice_fim):
+        aresta_para_remover = self.get_aresta(valor_vertice_inicio, valor_vertice_fim)
 
+        if aresta_para_remover is not None:
+            self.arestas.remove(aresta_para_remover)
+
+            aresta_para_remover.get_inicio().get_arestas_de_saida().remove(aresta_para_remover)
+            aresta_para_remover.get_fim().get_arestas_de_entrada().remove(aresta_para_remover)
+        else:
+            print(f"Aresta de {valor_vertice_inicio} para {valor_vertice_fim} não encontrada.")
+
+    def eh_simplesmente_conexo(self):
+        visitados = set()
+
+        def dfs(vertice):
+            visitados.add(vertice)
+            for aresta in vertice.get_arestas_de_saida():
+                proximo_vertice = aresta.get_fim()
+                if proximo_vertice not in visitados:
+                    dfs(proximo_vertice)
+
+        if not self.vertices:
+            return True
+
+        dfs(self.vertices[0])
+
+        return len(visitados) == len(self.vertices)
+
+    def eh_semi_fortemente_conexo(self):
+        grafo_nao_direcionado = Grafo()
+        for vertice in self.vertices:
+            grafo_nao_direcionado.adicionar_vertice(vertice.get_valor_vertice())
+        for aresta in self.arestas:
+            grafo_nao_direcionado.adicionar_aresta(
+                aresta.get_inicio().get_valor_vertice(),
+                aresta.get_fim().get_valor_vertice()
+            )
+            grafo_nao_direcionado.adicionar_aresta(
+                aresta.get_fim().get_valor_vertice(),
+                aresta.get_inicio().get_valor_vertice()
+            )
+
+        return grafo_nao_direcionado.eh_simplesmente_conexo()
+
+    def eh_fortemente_conexo(self):
+        def dfs(vertice, visitados, arestas_saida=True):
+            visitados.add(vertice)
+            arestas = vertice.get_arestas_de_saida() if arestas_saida else vertice.get_arestas_de_entrada()
+            for aresta in arestas:
+                proximo_vertice = aresta.get_fim() if arestas_saida else aresta.get_inicio()
+                if proximo_vertice not in visitados:
+                    dfs(proximo_vertice, visitados, arestas_saida)
+
+        if not self.vertices:
+            return True
+
+        visitados = set()
+        dfs(self.vertices[0], visitados, True)
+        if len(visitados) != len(self.vertices):
+            return False
+
+        visitados.clear()
+        dfs(self.vertices[0], visitados, False)
+        return len(visitados) == len(self.vertices)
+
+    def contar_componentes_fortemente_conexos(self):
+        ordem_finalizacao = []
+        visitados = set()
+
+        def dfs_primeira_passagem(vertice):
+            visitados.add(vertice)
+            for aresta in vertice.get_arestas_de_saida():
+                proximo_vertice = aresta.get_fim()
+                if proximo_vertice not in visitados:
+                    dfs_primeira_passagem(proximo_vertice)
+            ordem_finalizacao.append(vertice)
+
+        def dfs_segunda_passagem(vertice, componente):
+            visitados.add(vertice)
+            componente.append(vertice)
+            for aresta in vertice.get_arestas_de_entrada():
+                proximo_vertice = aresta.get_inicio()
+                if proximo_vertice not in visitados:
+                    dfs_segunda_passagem(proximo_vertice, componente)
+
+        for vertice in self.vertices:
+            if vertice not in visitados:
+                dfs_primeira_passagem(vertice)
+
+        visitados.clear()
+
+        componentes = []
+        while ordem_finalizacao:
+            vertice = ordem_finalizacao.pop()
+            if vertice not in visitados:
+                componente = []
+                dfs_segunda_passagem(vertice, componente)
+                componentes.append(componente)
+
+        return len(componentes)
