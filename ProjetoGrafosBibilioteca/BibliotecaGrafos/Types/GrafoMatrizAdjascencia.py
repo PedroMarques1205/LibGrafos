@@ -19,7 +19,7 @@ class GrafoMatrizAdjascencia:
         indice2 = next((i for i, vertice in enumerate(self.vertices) if vertice.valor_vertice == rotuloVertice2), None)
 
         if indice1 is None or indice2 is None:
-            raise ValueError("Um ou ambos os vértices não foram encontrados.")
+            raise ValueError("Vértice não encontrado.")
 
         self.matrizAdjacencia[indice1][indice2] = peso
         self.arestas[(rotuloVertice1, rotuloVertice2)] = peso
@@ -33,7 +33,7 @@ class GrafoMatrizAdjascencia:
         indice2 = next((i for i, vertice in enumerate(self.vertices) if vertice.rotulo == rotuloVertice2), None)
 
         if indice1 is None or indice2 is None:
-            raise ValueError("Um ou ambos os vértices não foram encontrados.")
+            raise ValueError("Vértice não encontrado.")
 
         self.matrizAdjacencia[indice1][indice2] = 0
         del self.arestas[(rotuloVertice1, rotuloVertice2)]
@@ -44,7 +44,7 @@ class GrafoMatrizAdjascencia:
 
     def rotular_vertice(self, indice: int, novo_rotulo: str):
         if indice < 0 or indice >= len(self.vertices):
-            raise ValueError("Índice de vértice inválido.")
+            raise ValueError("Vértice não encontrado.")
         self.vertices[indice].rotulo = novo_rotulo
 
     def ponderar_aresta(self, rotuloVertice1: str, rotuloVertice2: str, novo_peso: int):
@@ -52,7 +52,7 @@ class GrafoMatrizAdjascencia:
         indice2 = next((i for i, vertice in enumerate(self.vertices) if vertice.rotulo == rotuloVertice2), None)
 
         if indice1 is None or indice2 is None:
-            raise ValueError("Um ou ambos os vértices não foram encontrados.")
+            raise ValueError("Vértice não encontrado.")
 
         self.matrizAdjacencia[indice1][indice2] = novo_peso
         self.arestas[(rotuloVertice1, rotuloVertice2)] = novo_peso
@@ -66,7 +66,7 @@ class GrafoMatrizAdjascencia:
         indice2 = next((i for i, vertice in enumerate(self.vertices) if vertice.rotulo == rotuloVertice2), None)
 
         if indice1 is None or indice2 is None:
-            raise ValueError("Um ou ambos os vértices não foram encontrados.")
+            raise ValueError("Vértice não encontrado.")
 
         return self.matrizAdjacencia[indice1][indice2] != 0
 
@@ -120,9 +120,7 @@ class GrafoMatrizAdjascencia:
             print(f"{vertice.valor_vertice:>4}", end="")
         print()
 
-        # Printando os rótulos das linhas e os valores da matriz
         for i, vertice in enumerate(self.vertices):
-            print(f"{vertice.valor_vertice:>3}", end="")  # Rótulo da linha
             for valor in self.matrizAdjacencia[i]:
                 print(f"{valor:>4}", end="")
             print()
