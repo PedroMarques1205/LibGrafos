@@ -3,11 +3,11 @@ from ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.Vertice import Vertice
 
 
 class GrafoMatrizIncidencia:
-    def __init__(self, is_direcionado=False):
-        self.matriz_incidencia = []  # Inicializa a matriz vazia
-        self.vertices = []  # Lista para armazenar os vértices
-        self.arestas = []  # Lista para armazenar as arestas
-        self.isDirecionado = is_direcionado  # Indica se o grafo é direcionado ou não
+    def __init__(self, isDirecionado=False):
+        self.matriz_incidencia = []
+        self.vertices = vertices
+        self.arestas = []
+        self.isDirecionado = isDirecionado
 
     def adicionar_vertice(self, vertice):
         self.vertices.append(vertice)

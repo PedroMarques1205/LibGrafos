@@ -6,8 +6,8 @@ from ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.Vertice import Vertice
 
 
 class GrafoMatrizAdjascencia:
-    def __init__(self):
-        self.isDirecionado = False
+    def __init__(self, isDirecionado=False):
+        self.isDirecionado = isDirecionado
         self.vertices: List[Vertice] = []
         self.matrizAdjacencia = []
         self.arestas = {}
