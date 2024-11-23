@@ -42,9 +42,9 @@ class Grafo:
             raise ValueError("Tentou adiciona ruma aresta com vértices que não existem no grafo.")
 
         self.arestas.append(aresta)
-        self.listaAdjacencia.adicionar_aresta()
-        self.matrizAdjacencia.adicionar_aresta()
-        self.matrizIncidencia.adicionar_aresta()
+        self.listaAdjacencia.adicionar_aresta(aresta)
+        self.matrizAdjacencia.criar_arestas(aresta)
+        self.matrizIncidencia.adicionar_aresta(aresta)
 
     def removerAresta(self, rotulo_inicio: str, rotulo_fim: str):
         isFound = False
@@ -53,7 +53,7 @@ class Grafo:
             if aresta.get_inicio().rotulo == rotulo_inicio and aresta.get_fim().rotulo == rotulo_fim:
                 self.arestas.remove(aresta)
                 self.listaAdjacencia.remover_aresta(aresta)
-                self.matrizAdjacencia.remover_aresta(aresta)
+                self.matrizAdjacencia.r
                 self.matrizIncidencia.remover_aresta(aresta)
                 isFound = True
                 break
