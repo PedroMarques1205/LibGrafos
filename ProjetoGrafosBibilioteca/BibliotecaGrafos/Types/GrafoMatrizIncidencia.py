@@ -5,19 +5,17 @@ import random
 class GrafoMatrizIncidencia:
     def __init__(self, isDirecionado=False):
         self.matriz_incidencia = []
-        self.vertices = vertices
+        self.vertices = []
         self.arestas = []
         self.isDirecionado = isDirecionado
 
-    def adicionar_vertice(self, vertice):
+    def adicionar_vertice(self, vertice: Vertice):
         self.vertices.append(vertice)
-        # Expandir a matriz para incluir o novo vértice
         for linha in self.matriz_incidencia:
-            linha.append(0)  # Adiciona uma coluna para o novo vértice
+            linha.append(0)
 
     def adicionar_aresta(self, aresta):
         self.arestas.append(aresta)
-        # Cria uma nova linha para a nova aresta
         nova_linha = [0] * len(self.vertices)
 
         inicio = aresta.get_inicio()
