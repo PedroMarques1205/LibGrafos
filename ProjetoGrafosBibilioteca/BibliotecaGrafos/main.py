@@ -6,39 +6,74 @@ from ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.GrafoMatrizIncidencia impor
 from ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.Vertice import Vertice
 
 if __name__ == "__main__":
-    grafo = GrafoMatrizIncidencia(True)
+    grafo = GrafoMatrizAdjascencia()
+    grafo.isDirecionado = False
 
-    v1 = Vertice("a")
-    v2 = Vertice("b")
-    v3 = Vertice("c")
-    v4 = Vertice("d")
-    v5 = Vertice("e")
+    vA = Vertice("A")
+    vB = Vertice("B")
+    vC = Vertice("C")
+    vD = Vertice("D")
 
-    a1 = Aresta(v1, v2, "e1", 1)
-    a2 = Aresta(v1, v3, "e2", 1)
-    a3 = Aresta(v2, v3, "e3", 1)
-    a4 = Aresta(v2, v4, "e4", 1)
-    a5 = Aresta(v3, v4, "e5", 1)
-    a6 = Aresta(v4, v5, "e6", 1)
-    a7 = Aresta(v3, v5, "e7", 1)
+    grafo.adicionar_vertice(vA)
+    grafo.adicionar_vertice(vB)
+    grafo.adicionar_vertice(vC)
+    grafo.adicionar_vertice(vD)
 
-    grafo.adicionar_vertice(v1)
-    grafo.adicionar_vertice(v2)
-    grafo.adicionar_vertice(v3)
-    grafo.adicionar_vertice(v4)
-    grafo.adicionar_vertice(v5)
-
-    grafo.adicionar_aresta(a1)
-    grafo.adicionar_aresta(a2)
-    grafo.adicionar_aresta(a3)
-    grafo.adicionar_aresta(a4)
-    grafo.adicionar_aresta(a5)
-    grafo.adicionar_aresta(a6)
-    grafo.adicionar_aresta(a7)
-
-    grafo.exibir_matriz()
+    grafo.criar_arestas(vA.valor_vertice, vB.valor_vertice)
+    grafo.criar_arestas(vD.valor_vertice, vB.valor_vertice)
+    grafo.criar_arestas(vC.valor_vertice, vA.valor_vertice)
+    grafo.criar_arestas(vC.valor_vertice, vD.valor_vertice)
 
 
-    print(grafo.verificar_existencia_aresta(v1,v5))
+    isFConexo = grafo.verificar_fortemente_conexo()
+    grafo.printar_matriz_adjacencia()
+    
+    print(" ")
+    print("== TESTE FORTEMENTE CONEXO GRAFO 1 ==")
+    print(" ")
+    print(isFConexo)
+    
+    grafo_networkx = grafo.para_networkx()
 
+
+    nx.write_graphml(grafo_networkx, "testeconectividade.graphml")
+    nx.write_gexf(grafo_networkx, "testeconectividade.gexf")
+    
+    grafoOriginal = GrafoMatrizAdjascencia()
+    grafoOriginal.isDirecionado = True
+
+    grafoOriginal.adicionar_vertice(vA)
+    grafoOriginal.adicionar_vertice(vB)
+    grafoOriginal.adicionar_vertice(vC)
+    
+    grafoOriginal.criar_arestas(vA.valor_vertice, vB.valor_vertice)
+    grafoOriginal.criar_arestas(vB.valor_vertice, vC.valor_vertice)
+    
+    print(" ")
+    print("== TESTE SEMI-FORTEMENTE CONEXO GRAFO 2 ==")
+    print(" ")
+    print(grafoOriginal.verificar_semi_fortemente_conexo())
+    
+    grafo_networkx_dois = grafoOriginal.para_networkx()
+    nx.write_graphml(grafo_networkx_dois, "grafo_semiforte.graphml")
+    nx.write_gexf(grafo_networkx_dois, "grafo_semiforte.gexf")
+    
+    print(" ")
+    print("== MATRIZ DO SEMIFORTE ==")
+    print(" ")
+    grafoOriginal.printar_matriz_adjacencia()
+    
+    grafoTransposto = grafoOriginal.transpor()
+    print(" ")
+    print("== MATRIZ DO SEMIFORTE TRANSPOSTO ==")
+    print(" ")
+    grafoTransposto.printar_matriz_adjacencia()
+    
+    
+    grafo_networkx_dois_transposto = grafoTransposto.para_networkx()
+    nx.write_graphml(grafo_networkx_dois_transposto, "grafo_transposto.graphml")
+    nx.write_gexf(grafo_networkx_dois_transposto, "grafo_transposto.gexf")
+
+    
+    
 

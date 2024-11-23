@@ -1,10 +1,14 @@
 import networkx as nx
+from typing import List
+
+from ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.Aresta import Aresta
+from ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.Vertice import Vertice
 
 
 class GrafoMatrizAdjascencia:
     def __init__(self):
         self.isDirecionado = False
-        self.vertices = []
+        self.vertices: List[Vertice] = []
         self.matrizAdjacencia = []
         self.arestas = {}
 
@@ -114,13 +118,87 @@ class GrafoMatrizAdjascencia:
             return
 
         print("Matriz de Adjacência:")
-
-        print("   ", end="")
+        print("    ", end="")
         for vertice in self.vertices:
             print(f"{vertice.valor_vertice:>4}", end="")
         print()
 
         for i, vertice in enumerate(self.vertices):
+            print(f"{self.vertices[i].valor_vertice:>4}", end="")
+
             for valor in self.matrizAdjacencia[i]:
                 print(f"{valor:>4}", end="")
             print()
+
+    def verificar_fortemente_conexo(self):
+        visitados = set()
+
+        def busca_em_profundidade(vertice, grafo, visitado=None):
+            if visitado is None:
+                visitado = set()
+            visitado.add(vertice)
+
+            indice = self.vertices.index(vertice)
+            for i, adjacente in enumerate(self.matrizAdjacencia[indice]):
+                if adjacente != 0 and self.vertices[i] not in visitado:
+                    busca_em_profundidade(self.vertices[i], grafo, visitado)
+
+        if not self.vertices:
+            return True
+
+        busca_em_profundidade(self.vertices[0], self, visitados)
+        if len(visitados) != len(self.vertices):
+            return False
+
+        if self.isDirecionado:
+            visitados.clear()
+            grafo_invertido = self.transpor()
+            busca_em_profundidade(grafo_invertido.vertices[0], grafo_invertido, visitados)
+
+        if len(visitados) != len(self.vertices):
+            return False
+
+        return True
+    
+    def verificar_semi_fortemente_conexo(self):
+        def busca_em_profundidade(vertice, grafo, visitado = None):
+            if visitado is None:
+                visitado = set()
+            visitado.add(vertice)
+            
+            indice = self.vertices.index(vertice)
+            for i, adjacente in enumerate(self.matrizAdjacencia[indice]):
+                if adjacente != 0 and self.vertices[i] not in visitado:
+                    busca_em_profundidade(self.vertices[i], grafo, visitado)
+                    
+        if not self.vertices:
+            return True
+        visitados = set()
+        busca_em_profundidade(self.vertices[0], self, visitados)
+        if len(visitados) != len(self.vertices):
+            return False
+        visitadosGrafoInvertido = set()
+        grafoInvertido = self.transpor()
+        busca_em_profundidade(grafoInvertido.vertices[0], grafoInvertido, visitadosGrafoInvertido)
+        
+        if len(visitadosGrafoInvertido) != len(self.vertices):
+            return False
+        
+        return True
+
+    def vertifica_simplesmente_conexo(self):
+        isFortementeConexo = self.verificar_fortemente_conexo()
+        isSemiForte = self.verificar_semi_fortemente_conexo()
+
+        if not isFortementeConexo and not isSemiForte:
+            return True
+        return False
+        
+        
+    def transpor(self):
+        grafo_invertido = GrafoMatrizAdjascencia()
+        for vertice in self.vertices:
+            grafo_invertido.adicionar_vertice(vertice)
+        for (vertice1, vertice2), peso in self.arestas.items():
+            grafo_invertido.criar_arestas(vertice2, vertice1, peso)
+        return grafo_invertido
