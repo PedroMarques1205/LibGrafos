@@ -16,31 +16,17 @@ class GrafoListaAdjacencia:
         if self.get_vertice(valor_vertice) is None:
             self.vertices.append(Vertice(valor_vertice, rotulo, peso))
 
-    # Função para adicionar uma aresta entre dois vértices no grafo.
-    # Parâmetros:
-    # - inicio_aresta: o valor do vértice de início da aresta.
-    # - fim_aresta: o valor do vértice de fim da aresta.
-    # - rotulo (opcional): um rótulo descritivo para a aresta. Se não fornecido, será gerado automaticamente como "inicio_aresta-fim_aresta".
-    # - peso (opcional): peso da aresta. O valor padrão é 1.
-    def adicionar_aresta(self, inicio_aresta, fim_aresta, rotulo=None, peso=1):
-        # Obtém os vértices correspondentes aos valores de início e fim.
-        vertice_inicio = self.get_vertice(inicio_aresta)
-        vertice_fim = self.get_vertice(fim_aresta)
+    def adicionar_aresta(self, aresta: Aresta):
+        vertice_inicio = self.get_vertice(aresta.get_inicio())
+        vertice_fim = self.get_vertice(aresta.get_fim())
 
-        # Se nenhum rótulo foi fornecido, cria um rótulo padrão usando os valores dos vértices.
-        if rotulo is None:
-            rotulo = f"{inicio_aresta}-{fim_aresta}"
-
-        # Adiciona a aresta se ambos os vértices existirem no grafo.
         if vertice_inicio is not None and vertice_fim is not None:
-            # Cria uma nova aresta e a adiciona à lista de arestas do grafo.
-            nova_aresta = Aresta(vertice_inicio, vertice_fim, rotulo, peso)
-            self.arestas.append(nova_aresta)
+            self.arestas.append(aresta)
 
-            # Atualiza as referências de saída e entrada dos vértices conectados.
-            vertice_inicio.adicionar_aresta_de_saida(nova_aresta)
-            vertice_fim.adicionar_aresta_de_entrada(nova_aresta)
-
+            vertice_inicio.adicionar_aresta_de_saida(aresta)
+            vertice_fim.adicionar_aresta_de_entrada(aresta)
+        else:
+            raise ValueError("Vértices de início ou fim não encontrados no grafo.")
     # Função para buscar um vértice no grafo com base no valor do vértice.
     # Parâmetros:
     # - valor_vertice: o valor do vértice a ser procurado.
