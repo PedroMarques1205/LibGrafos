@@ -11,10 +11,8 @@ class GrafoListaAdjacencia:
         self.arestas = []
         self.isDirecionado = False
 
-    # Função para adicionar um novo vértice ao grafo, recebe como parâmetros: valor_vertice, rotulo e o peso do mesmo.
-    def adicionar_vertice(self, valor_vertice, rotulo=None, peso=1):
-        if self.get_vertice(valor_vertice) is None:
-            self.vertices.append(Vertice(valor_vertice, rotulo, peso))
+    def adicionar_vertice(self, vertice: Vertice):
+        self.vertices.append(vertice)
 
     def adicionar_aresta(self, aresta: Aresta):
         vertice_inicio = self.get_vertice(aresta.get_inicio())

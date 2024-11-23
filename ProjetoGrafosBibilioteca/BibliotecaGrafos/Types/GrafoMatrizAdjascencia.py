@@ -12,8 +12,8 @@ class GrafoMatrizAdjascencia:
         self.matrizAdjacencia = []
         self.arestas = {}
 
-    def adicionar_vertice(self, newVertice):
-        self.vertices.append(newVertice)
+    def adicionar_vertice(self, vertice: Vertice):
+        self.vertices.append(vertice)
         for linha in self.matrizAdjacencia:
             linha.append(0)
         self.matrizAdjacencia.append([0] * len(self.vertices))
