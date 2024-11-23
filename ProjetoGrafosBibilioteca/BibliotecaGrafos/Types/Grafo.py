@@ -352,3 +352,36 @@ class Grafo:
 
         # Retorna o número de componentes fortemente conexos encontrados.
         return len(componentes)
+    
+    # Método para criar um grafo com uma quantidade definida de vértices 
+    @staticmethod
+    def criar_grafo_com_x_vertices():
+        try:
+            print('== CRIAR GRAFO COM X VÉRTICES ==')
+            entrada = input("Informe quantos vértices terá o grafo OU digite 'sair' para sair: ")
+            if entrada.lower() == 'sair':
+                return None
+            vertices = int(entrada)
+            if vertices <= 0:
+                print('Valor inválido. Insira um número maior que 0.')
+                return None
+        except ValueError:
+            print('Informe um valor válido.')
+            return None
+
+        grafo = Grafo()
+
+        for i in range(vertices):
+            valor_vertice = input(f"Insira o valor do vértice {i + 1}: ")
+            rotulo = input(f"Insira o rótulo do vértice {i + 1} (ou deixe vazio): ")
+            try:
+                peso = float(input(f"Insira o peso do vértice {i + 1} (padrão é 1): ") or 1)
+            except ValueError:
+                print("Peso inválido. Usando o valor padrão 1.")
+                peso = 1
+
+            grafo.adicionar_vertice(valor_vertice, rotulo if rotulo else None, peso)
+
+        print("Grafo criado com sucesso!")
+        return grafo
+
