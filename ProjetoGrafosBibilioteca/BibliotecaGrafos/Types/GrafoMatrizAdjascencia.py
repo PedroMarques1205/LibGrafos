@@ -18,7 +18,7 @@ class GrafoMatrizAdjascencia:
             linha.append(0)
         self.matrizAdjacencia.append([0] * len(self.vertices))
 
-    def criar_arestas(self, aresta: Aresta):
+    def adicionar_arestas(self, aresta: Aresta):
         rotuloVertice1 = aresta.get_inicio()
         rotuloVertice2 = aresta.get_fim()
         peso = aresta.get_peso()
@@ -185,31 +185,9 @@ class GrafoMatrizAdjascencia:
         grafoInvertido = self.transpor()
         busca_em_profundidade(grafoInvertido.vertices[0], grafoInvertido, visitadosGrafoInvertido)
 
-        def remover_aresta(self, aresta: Aresta):
-            rotulo_vertice1 = aresta.get_inicio()
-            rotulo_vertice2 = aresta.get_fim()
-
-            indice1 = next((i for i, vertice in enumerate(self.vertices) if vertice.valor_vertice == rotulo_vertice1),
-                           None)
-            indice2 = next((i for i, vertice in enumerate(self.vertices) if vertice.valor_vertice == rotulo_vertice2),
-                           None)
-
-            if indice1 is None or indice2 is None:
-                raise ValueError("Vértice não encontrado.")
-
-            self.matrizAdjacencia[indice1][indice2] = 0
-
-            if (rotulo_vertice1, rotulo_vertice2) in self.arestas:
-                del self.arestas[(rotulo_vertice1, rotulo_vertice2)]
-
-            if not self.isDirecionado:
-                self.matrizAdjacencia[indice2][indice1] = 0
-                if (rotulo_vertice2, rotulo_vertice1) in self.arestas:
-                    del self.arestas[(rotulo_vertice2, rotulo_vertice1)]
-        
         if len(visitadosGrafoInvertido) != len(self.vertices):
             return False
-        
+
         return True
 
     def vertifica_simplesmente_conexo(self):
@@ -228,3 +206,23 @@ class GrafoMatrizAdjascencia:
         for (vertice1, vertice2), peso in self.arestas.items():
             grafo_invertido.criar_arestas(vertice2, vertice1, peso)
         return grafo_invertido
+
+    def remover_aresta(self, aresta: Aresta):
+        rotulo_vertice1 = aresta.get_inicio()
+        rotulo_vertice2 = aresta.get_fim()
+
+        indice1 = next((i for i, vertice in enumerate(self.vertices) if vertice.valor_vertice == rotulo_vertice1), None)
+        indice2 = next((i for i, vertice in enumerate(self.vertices) if vertice.valor_vertice == rotulo_vertice2), None)
+
+        if indice1 is None or indice2 is None:
+            raise ValueError("Vértice não encontrado.")
+
+        self.matrizAdjacencia[indice1][indice2] = 0
+
+        if (rotulo_vertice1, rotulo_vertice2) in self.arestas:
+            del self.arestas[(rotulo_vertice1, rotulo_vertice2)]
+
+        if not self.isDirecionado:
+            self.matrizAdjacencia[indice2][indice1] = 0
+            if (rotulo_vertice2, rotulo_vertice1) in self.arestas:
+                del self.arestas[(rotulo_vertice2, rotulo_vertice1)]
