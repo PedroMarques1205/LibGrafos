@@ -1,4 +1,7 @@
+import networkx as nx
+
 from ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.Aresta import Aresta
+from ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.GrafoMatrizAdjascencia import GrafoMatrizAdjascencia
 from ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.GrafoMatrizIncidencia import GrafoMatrizIncidencia
 from ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.Vertice import Vertice
 
