@@ -18,7 +18,11 @@ class GrafoMatrizAdjascencia:
             linha.append(0)
         self.matrizAdjacencia.append([0] * len(self.vertices))
 
-    def criar_arestas(self, rotuloVertice1: str, rotuloVertice2: str, peso: int = 1):
+    def criar_arestas(self, aresta: Aresta):
+        rotuloVertice1 = aresta.get_inicio()
+        rotuloVertice2 = aresta.get_fim()
+        peso = aresta.get_peso()
+
         indice1 = next((i for i, vertice in enumerate(self.vertices) if vertice.valor_vertice == rotuloVertice1), None)
         indice2 = next((i for i, vertice in enumerate(self.vertices) if vertice.valor_vertice == rotuloVertice2), None)
 
