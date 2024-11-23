@@ -1,10 +1,9 @@
 from ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.Aresta import Aresta
 from ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.GrafoMatrizIncidencia import GrafoMatrizIncidencia
 from ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.Vertice import Vertice
-from Types.Grafo import Grafo
 
 if __name__ == "__main__":
-    grafo = GrafoMatrizIncidencia()
+    grafo = GrafoMatrizIncidencia(True)
 
     v1 = Vertice("a")
     v2 = Vertice("b")
@@ -20,14 +19,12 @@ if __name__ == "__main__":
     a6 = Aresta(v4, v5, "e6", 1)
     a7 = Aresta(v3, v5, "e7", 1)
 
-    # Adiciona vértices
     grafo.adicionar_vertice(v1)
     grafo.adicionar_vertice(v2)
     grafo.adicionar_vertice(v3)
     grafo.adicionar_vertice(v4)
     grafo.adicionar_vertice(v5)
 
-    # Adiciona arestas
     grafo.adicionar_aresta(a1)
     grafo.adicionar_aresta(a2)
     grafo.adicionar_aresta(a3)
@@ -39,6 +36,6 @@ if __name__ == "__main__":
     grafo.exibir_matriz()
 
 
+    print(grafo.verificar_existencia_aresta(v1,v5))
 
 
-    print(grafo.vertices("a","b"))
