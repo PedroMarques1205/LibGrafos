@@ -178,8 +178,7 @@ class GrafoListaAdjacencia:
     # Retorno:
     # - Não retorna valor; remove a aresta do grafo se ela existir.
     # - Exibe uma mensagem se a aresta não for encontrada.
-    def remover_aresta(self, valor_vertice_inicio, valor_vertice_fim):
-        aresta_para_remover = self.get_aresta(valor_vertice_inicio, valor_vertice_fim)
+    def remover_aresta(self, aresta_para_remover: Aresta):
 
         if aresta_para_remover is not None:
             # Remove a aresta da lista geral de arestas do grafo.
@@ -189,7 +188,7 @@ class GrafoListaAdjacencia:
             aresta_para_remover.get_inicio().get_arestas_de_saida().remove(aresta_para_remover)
             aresta_para_remover.get_fim().get_arestas_de_entrada().remove(aresta_para_remover)
         else:
-            print(f"Aresta de {valor_vertice_inicio} para {valor_vertice_fim} não encontrada.")
+            print(f"Aresta não encontrada.")
 
     # Função para verificar se o grafo é simplesmente conexo.
     # Um grafo é simplesmente conexo se for conectado (todos os vértices são alcançáveis a partir de qualquer outro).
