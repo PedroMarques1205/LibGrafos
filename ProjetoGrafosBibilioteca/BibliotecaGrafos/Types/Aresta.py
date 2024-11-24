@@ -28,4 +28,3 @@ class Aresta:
 
     def set_peso(self, peso):
         self.peso = peso
-

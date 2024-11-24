@@ -133,3 +133,47 @@ class GrafoMatrizIncidencia:
         for aresta in self.arestas:
             if (aresta.get_rotulo() == rotulo):
                 aresta.set_rotulo(novoRotulo)
+
+    def verificar_grau_vertices(self):
+        for vertice in self.vertices:
+            vertice.grau = len(vertice.get_arestas_de_saida()) + len(vertice.get_arestas_de_entrada())
+
+    def encontrar_pontes_naive(self):
+        pontes = []
+        for aresta in self.arestas:
+            matriz_backup = [linha[:] for linha in self.matriz_incidencia]
+            arestas_backup = self.arestas[:]
+            self.remover_aresta(aresta)
+            if not self.verificar_conectividade():
+                pontes.append(aresta)
+            self.matriz_incidencia = matriz_backup
+            self.arestas = arestas_backup
+        return pontes
+
+    def fleury_naive(self):
+        self.verificar_grau_vertices()
+        if len([v for v in self.vertices if v.grau % 2 != 0]) > 2:
+            raise Exception("O grafo não possui caminho euleriano.")
+
+        v_inicial = next((v for v in self.vertices if v.grau % 2 != 0), self.vertices[0])
+        caminho = []
+        arestas_restantes = self.arestas[:]
+
+        while arestas_restantes:
+            pontes = self.encontrar_pontes_naive()
+
+            for vertice in self.vertices:
+                for aresta in vertice.get_arestas_de_saida() + vertice.get_arestas_de_entrada():
+                    if aresta in pontes and len(arestas_restantes) > 1:
+                        continue
+
+                    caminho.append(aresta)
+                    v_inicial = aresta.get_fim() if aresta.get_inicio() == v_inicial else aresta.get_inicio()
+
+                    if aresta in arestas_restantes:
+                        arestas_restantes.remove(aresta)
+
+        caminho_formatado = " / ".join(
+            [f"{aresta.get_inicio().get_peso()} / {aresta.get_fim().get_peso()}" for aresta in
+             caminho])
+        return caminho_formatado

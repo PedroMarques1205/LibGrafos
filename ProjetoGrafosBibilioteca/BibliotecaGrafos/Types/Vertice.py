@@ -40,4 +40,3 @@ class Vertice:
     def remover_aresta_de_entrada(self, aresta):
         if aresta in self.arestas_de_entrada:
             self.arestas_de_entrada.remove(aresta)
-

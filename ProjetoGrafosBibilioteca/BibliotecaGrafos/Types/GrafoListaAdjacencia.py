@@ -77,4 +77,3 @@ class GrafoListaAdjacencia:
         for aresta in self.arestas:
             if (aresta.get_rotulo() == rotulo):
                 aresta.set_rotulo(novoRotulo)
-

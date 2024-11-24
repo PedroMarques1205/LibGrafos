@@ -138,4 +138,3 @@ class GrafoMatrizAdjascencia:
     def retorna_vertice_existente(self, rotulo_do_vertice: str):
         indice = next((i for i, vertice in enumerate(self.vertices) if vertice.rotulo == rotulo_do_vertice), None)
         return indice
-
