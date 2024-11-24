@@ -384,10 +384,10 @@ class Grafo:
         grafo = nx.DiGraph() if self.isDirecionado else nx.Graph()
 
         for vertice in self.vertices:
-            grafo.add_node(vertice.peso_vertice)
+            grafo.add_node(vertice.get_rotulo())
 
         for aresta in self.arestas:
-            grafo.add_edge(aresta.get_inicio(), aresta.get_fim(), weight=aresta.get_peso())
+            grafo.add_edge(aresta.get_inicio().get_rotulo(), aresta.get_fim().get_rotulo(), weight=aresta.get_peso())
 
         return grafo
 
