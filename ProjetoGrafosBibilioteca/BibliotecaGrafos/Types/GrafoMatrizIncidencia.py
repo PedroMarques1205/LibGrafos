@@ -52,7 +52,7 @@ class GrafoMatrizIncidencia:
             vertice_rotulo = (
                 vertice.get_rotulo()
                 if vertice.get_rotulo() is not None
-                else str(vertice.get_valor_vertice())
+                else str(vertice.get_ponderacao_vertice())
             )
             linha = [self.matriz_incidencia[j][i] for j in range(len(self.matriz_incidencia))]
             linha_formatada = " ".join(f"{valor:>{espacamento}}" for valor in linha)
@@ -187,7 +187,7 @@ class GrafoMatrizIncidencia:
 
         # Adicionar vértices
         for i in range(1, x + 1):
-            vertice = Vertice(valor_vertice=i, rotulo=f"V{i}")
+            vertice = Vertice(ponderacao_vertice=i, rotulo=f"V{i}")
             grafo.adicionar_vertice(vertice)
 
         # Adicionar arestas com base em uma probabilidade
@@ -325,7 +325,7 @@ class GrafoMatrizIncidencia:
         vertices_map = {}  # Mapeia os vértices antigos para os novos
 
         for vertice in self.vertices:
-            novo_vertice = Vertice(vertice.get_valor_vertice(), vertice.get_rotulo())
+            novo_vertice = Vertice(vertice.get_ponderacao_vertice(), vertice.get_rotulo())
             novo_grafo.adicionar_vertice(novo_vertice)
             vertices_map[vertice] = novo_vertice
 
@@ -378,7 +378,7 @@ class GrafoMatrizIncidencia:
                         arestas_restantes.remove(aresta)
 
         caminho_formatado = " / ".join(
-            [f"{aresta.get_inicio().get_valor_vertice()} / {aresta.get_fim().get_valor_vertice()}" for aresta in
+            [f"{aresta.get_inicio().get_ponderacao_vertice()} / {aresta.get_fim().get_ponderacao_vertice()}" for aresta in
              caminho])
         return caminho_formatado
 
@@ -416,7 +416,7 @@ class GrafoMatrizIncidencia:
             break
 
         caminho_formatado = " / ".join(
-            [f"{aresta.get_inicio().get_valor_vertice()} / {aresta.get_fim().get_valor_vertice()}" for aresta in
+            [f"{aresta.get_inicio().get_ponderacao_vertice()} / {aresta.get_fim().get_ponderacao_vertice()}" for aresta in
              caminho])
         return caminho_formatado
 
@@ -430,7 +430,7 @@ class GrafoMatrizIncidencia:
 
         # Adicionar vértices
         for i in range(1, x + 1):
-            vertice = Vertice(valor_vertice=i, rotulo=f"V{i}")
+            vertice = Vertice(ponderacao_vertice=i, rotulo=f"V{i}")
             grafo.adicionar_vertice(vertice)
 
         # Adicionar arestas para garantir que o grafo seja euleriano (grau par)

@@ -15,8 +15,8 @@ class GrafoListaAdjacencia:
         self.vertices.append(vertice)
 
     def adicionar_aresta(self, aresta: Aresta):
-        vertice_inicio = self.get_vertice(aresta.get_inicio().get_valor_vertice())
-        vertice_fim = self.get_vertice(aresta.get_fim().get_valor_vertice())
+        vertice_inicio = self.get_vertice(aresta.get_inicio().get_ponderacao_vertice())
+        vertice_fim = self.get_vertice(aresta.get_fim().get_ponderacao_vertice())
 
         if vertice_inicio is not None and vertice_fim is not None:
             self.arestas.append(aresta)
@@ -28,7 +28,7 @@ class GrafoListaAdjacencia:
 
     def get_vertice(self, valor_vertice):
         for vertice in self.vertices:
-            if vertice.get_valor_vertice() == valor_vertice:
+            if vertice.get_ponderacao_vertice() == valor_vertice:
                 return vertice
         return None
 
@@ -49,8 +49,8 @@ class GrafoListaAdjacencia:
     def get_aresta(self, valor_vertice_inicio, valor_vertice_fim):
         # Itera pela lista de arestas para encontrar aquela conectando os vértices especificados.
         for aresta in self.arestas:
-            if (aresta.get_inicio().get_valor_vertice() == valor_vertice_inicio and
-                    aresta.get_fim().get_valor_vertice() == valor_vertice_fim):
+            if (aresta.get_inicio().get_ponderacao_vertice() == valor_vertice_inicio and
+                    aresta.get_fim().get_ponderacao_vertice() == valor_vertice_fim):
                 return aresta
         # Retorna None se a aresta não existir.
         return None
@@ -82,12 +82,12 @@ class GrafoListaAdjacencia:
         # Exibe os cabeçalhos da matriz.
         print("  ", end="")
         for vertice in self.vertices:
-            print(vertice.get_valor_vertice(), end=" ")
+            print(vertice.get_ponderacao_vertice(), end=" ")
         print()
 
         # Exibe os valores da matriz.
         for i, vertice in enumerate(self.vertices):
-            print(vertice.get_valor_vertice(), end=" ")
+            print(vertice.get_ponderacao_vertice(), end=" ")
             for j in range(tamanho):
                 print(matriz_adjacencia[i][j], end=" ")
             print()
@@ -120,7 +120,7 @@ class GrafoListaAdjacencia:
 
         # Exibe os valores da matriz.
         for i, vertice in enumerate(self.vertices):
-            print(vertice.get_valor_vertice(), end=" ")
+            print(vertice.get_ponderacao_vertice(), end=" ")
             for j in range(qtdArestas):
                 print(matriz_incidencia[i][j], end=" ")
             print()
@@ -140,13 +140,13 @@ class GrafoListaAdjacencia:
 
             # Adiciona os valores dos vértices de destino para cada aresta de saída.
             for aresta in arestasDeSaidaVertice:
-                listaAdjacenciaDoVertice.append(aresta.get_fim().get_valor_vertice())
+                listaAdjacenciaDoVertice.append(aresta.get_fim().get_ponderacao_vertice())
 
             listasDeAdjacencia.append(listaAdjacenciaDoVertice)
 
         # Exibe a lista de adjacência no console.
         for i, vertice in enumerate(self.vertices):
-            print(f"Vértice {vertice.get_valor_vertice()}: {listasDeAdjacencia[i]}")
+            print(f"Vértice {vertice.get_ponderacao_vertice()}: {listasDeAdjacencia[i]}")
 
     # Função para verificar a adjacência entre dois vértices.
     # Entrada:
@@ -208,15 +208,15 @@ class GrafoListaAdjacencia:
 
         # Cria uma cópia do grafo original como não direcionado.
         for vertice in self.vertices:
-            grafo_nao_direcionado.adicionar_vertice(vertice.get_valor_vertice())
+            grafo_nao_direcionado.adicionar_vertice(vertice.get_ponderacao_vertice())
         for aresta in self.arestas:
             grafo_nao_direcionado.adicionar_aresta(
-                aresta.get_inicio().get_valor_vertice(),
-                aresta.get_fim().get_valor_vertice()
+                aresta.get_inicio().get_ponderacao_vertice(),
+                aresta.get_fim().get_ponderacao_vertice()
             )
             grafo_nao_direcionado.adicionar_aresta(
-                aresta.get_fim().get_valor_vertice(),
-                aresta.get_inicio().get_valor_vertice()
+                aresta.get_fim().get_ponderacao_vertice(),
+                aresta.get_inicio().get_ponderacao_vertice()
             )
 
         return grafo_nao_direcionado.eh_simplesmente_conexo()

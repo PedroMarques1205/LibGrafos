@@ -44,8 +44,8 @@ class Grafo:
         A1 = aresta.get_inicio()
         A2 = aresta.get_fim()
 
-        indice1 = next((i for i, vertice in enumerate(self.vertices) if vertice.valor_vertice == A1.get_valor_vertice()), None)
-        indice2 = next((i for i, vertice in enumerate(self.vertices) if vertice.valor_vertice == A2.get_valor_vertice()), None)
+        indice1 = next((i for i, vertice in enumerate(self.vertices) if vertice.ponderacao_vertice == A1.get_ponderacao_vertice()), None)
+        indice2 = next((i for i, vertice in enumerate(self.vertices) if vertice.ponderacao_vertice == A2.get_ponderacao_vertice()), None)
 
         if (indice1 == None or indice2 == None):
             raise ValueError("FOI AQUI QUE ESSE ERRO ESTOUROU.")
@@ -141,12 +141,13 @@ class Grafo:
     def para_networkx(self):
         grafo = nx.DiGraph() if self.isDirecionado else nx.Graph()
 
-        vertices_unicos = set(self.vertices)
-        for vertice in vertices_unicos:
-            grafo.add_node(vertice.get_valor_vertice())
+        # Adicionar os vértices ao grafo
+        for vertice in self.vertices:
+            grafo.add_node(vertice.ponderacao_vertice)
 
+        # Iterar pelas arestas e adicionar as conexões
         for aresta in self.arestas:
-            grafo.add_edge(aresta.get_inicio().get_valor_vertice(), aresta.get_fim().get_valor_vertice(), weight=aresta.get_peso())
+            grafo.add_edge(aresta.get_inicio(), aresta.get_fim(), weight=aresta.get_peso())
 
         return grafo
 

@@ -23,8 +23,8 @@ class GrafoMatrizAdjascencia:
         V2 = aresta.get_fim()
         peso = aresta.get_peso()
 
-        indice1 = next((i for i, vertice in enumerate(self.vertices) if vertice.valor_vertice == V1.get_valor_vertice()), None)
-        indice2 = next((i for i, vertice in enumerate(self.vertices) if vertice.valor_vertice == V2.get_valor_vertice()), None)
+        indice1 = next((i for i, vertice in enumerate(self.vertices) if vertice.ponderacao_vertice == V1.get_ponderacao_vertice()), None)
+        indice2 = next((i for i, vertice in enumerate(self.vertices) if vertice.ponderacao_vertice == V2.get_ponderacao_vertice()), None)
 
         if indice1 is None or indice2 is None:
             raise ValueError("Vértice não encontrado. (MA)")
@@ -95,7 +95,7 @@ class GrafoMatrizAdjascencia:
         grafo = nx.DiGraph() if self.isDirecionado else nx.Graph()
 
         for vertice in self.vertices:
-            grafo.add_node(vertice.valor_vertice)
+            grafo.add_node(vertice.ponderacao_vertice)
 
         for (vertice1, vertice2), peso in self.arestas.items():
             grafo.add_edge(vertice1, vertice2, weight=peso)
@@ -110,11 +110,11 @@ class GrafoMatrizAdjascencia:
         print("Matriz de Adjacência:")
         print("    ", end="")
         for vertice in self.vertices:
-            print(f"{vertice.valor_vertice:>4}", end="")
+            print(f"{vertice.ponderacao_vertice:>4}", end="")
         print()
 
         for i, vertice in enumerate(self.vertices):
-            print(f"{self.vertices[i].valor_vertice:>4}", end="")
+            print(f"{self.vertices[i].ponderacao_vertice:>4}", end="")
 
             for valor in self.matrizAdjacencia[i]:
                 print(f"{valor:>4}", end="")
@@ -197,8 +197,8 @@ class GrafoMatrizAdjascencia:
         rotulo_vertice1 = aresta.get_inicio()
         rotulo_vertice2 = aresta.get_fim()
 
-        indice1 = next((i for i, vertice in enumerate(self.vertices) if vertice.valor_vertice == rotulo_vertice1), None)
-        indice2 = next((i for i, vertice in enumerate(self.vertices) if vertice.valor_vertice == rotulo_vertice2), None)
+        indice1 = next((i for i, vertice in enumerate(self.vertices) if vertice.ponderacao_vertice == rotulo_vertice1), None)
+        indice2 = next((i for i, vertice in enumerate(self.vertices) if vertice.ponderacao_vertice == rotulo_vertice2), None)
 
         if indice1 is None or indice2 is None:
             raise ValueError("Vértice não encontrado.")
