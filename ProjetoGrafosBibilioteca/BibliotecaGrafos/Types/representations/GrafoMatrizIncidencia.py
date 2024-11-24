@@ -1,5 +1,5 @@
-from ProjetoGrafosBibilioteca.BibliotecaGrafos.Types import Aresta
-from ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.Vertice import Vertice
+from ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.core import Aresta
+from ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.core.Vertice import Vertice
 
 class GrafoMatrizIncidencia:
     def __init__(self, isDirecionado=False):

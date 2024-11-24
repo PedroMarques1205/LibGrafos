@@ -1,10 +1,10 @@
 import networkx as nx
 
-from ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.Aresta import Aresta
-from ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.GrafoListaAdjacencia import GrafoListaAdjacencia
-from ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.GrafoMatrizAdjascencia import GrafoMatrizAdjascencia
-from ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.GrafoMatrizIncidencia import GrafoMatrizIncidencia
-from ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.Vertice import Vertice
+from ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.core.Aresta import Aresta
+from ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.representations.GrafoListaAdjacencia import GrafoListaAdjacencia
+from ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.representations.GrafoMatrizAdjascencia import GrafoMatrizAdjascencia
+from ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.representations.GrafoMatrizIncidencia import GrafoMatrizIncidencia
+from ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.core.Vertice import Vertice
 
 class Grafo:
     def __init__(self, id: str, isDirecionado: bool):
@@ -41,10 +41,6 @@ class Grafo:
 
     def adicionarVertice(self, vertice: Vertice):
 
-        for v in self.vertices:
-            if v.get_rotulo() == vertice.get_rotulo():  # Comparação do rótulo
-                raise ValueError(f"Erro: O vértice com o rótulo {vertice.get_rotulo()} já existe.")
-
         self.vertices.append(vertice)
         self.listaAdjacencia.adicionar_vertice(vertice)
         self.matrizIncidencia.adicionar_vertice(vertice)
@@ -72,14 +68,8 @@ class Grafo:
             if a.get_rotulo() == aresta.get_rotulo():
                 raise ValueError(f"Erro: O vértice com o rótulo {aresta.get_rotulo()} já existe.")
 
-        A1 = aresta.get_inicio()
-        A2 = aresta.get_fim()
-
-        indice1 = next((i for i, vertice in enumerate(self.vertices) if vertice.peso_vertice == A1.get_peso()), None)
-        indice2 = next((i for i, vertice in enumerate(self.vertices) if vertice.peso_vertice == A2.get_peso()), None)
-
-        if (indice1 == None or indice2 == None):
-            raise ValueError("Você tentou adicionar uma relação entre vértices que não existem.")
+        v1 = aresta.get_inicio()
+        v2 = aresta.get_fim()
 
         self.arestas.append(aresta)
         self.listaAdjacencia.adicionar_aresta(aresta)
@@ -108,18 +98,24 @@ class Grafo:
         if not isFound:
             raise ValueError("Tentou remover uma aresta que não existe.")
 
-    def criar_grafo_com_x_vertices(self, num_vertices: int):
+    @staticmethod
+    def criar_grafo_com_x_vertices(quantidade_vertices, isDirecionado: bool):
+        grafo = Grafo(f"grafo{quantidade_vertices}Vertices", isDirecionado)
+
         vertices = []
-        for i in range(num_vertices):
+        for i in range(quantidade_vertices):
             vertice = Vertice(peso_vertice=str(i), rotulo=f"V{i}")
             vertices.append(vertice)
-            self.adicionarVertice(vertice)
+            grafo.adicionarVertice(vertice)
 
-        for i in range(num_vertices - 1):
-            self.adicionarAresta(Aresta(vertices[i], vertices[i + 1], rotulo=f"e{i}", peso=1))
+        for i in range(quantidade_vertices):
+            for j in range(i + 1, quantidade_vertices):
+                grafo.adicionarAresta(Aresta(vertices[i], vertices[j], rotulo=f"e{i}-{j}", peso=1))
 
-        self.adicionarAresta(
-            Aresta(vertices[num_vertices - 1], vertices[0], rotulo=f"e{num_vertices - 1}", peso=1))
+                if not isDirecionado:
+                    grafo.adicionarAresta(Aresta(vertices[j], vertices[i], rotulo=f"e{j}-{i}", peso=1))
+
+        return grafo
 
     def ponderar_vertice(self, rotulo_vertice: str, ponderacao_vertice):
         for v in self.vertices:
@@ -212,8 +208,7 @@ class Grafo:
             grafo_nao_direcionado.adicionarVertice(vertice.get_peso())
         for aresta in self.arestas:
             grafo_nao_direcionado.adicionarAresta(aresta)
-            grafo_nao_direcionado.adicionarAresta(aresta)
-        return grafo_nao_direcionado.checar_se_simplesmente_conexo()
+        return grafo_nao_direcionado.verificar_conectividade()
 
     def checar_se_simplesmente_conexo(self):
         visitados = set()
@@ -234,6 +229,22 @@ class Grafo:
         dfs(self.vertices[0], None)
 
         return len(visitados) == len(self.vertices) and not tem_ciclo[0]
+
+    def verificar_conectividade(self):
+        if not self.vertices:
+            return True
+        visitados = set()
+
+        def dfs(v):
+            visitados.add(v)
+            for aresta in v.get_arestas_de_saida() + v.get_arestas_de_entrada():
+                vizinho = aresta.get_fim() if aresta.get_inicio() == v else aresta.get_inicio()
+                if vizinho not in visitados:
+                    dfs(vizinho)
+
+        dfs(self.vertices[0])
+
+        return len(visitados) == len(self.vertices)
 
     def checar_quantidade_de_componentes_fortemente_conexos(self):
         ordem_finalizacao = []
@@ -452,3 +463,4 @@ class Grafo:
 
     def get_vertice(self, rotulo: str):
         return next((v for v in self.vertices if v.get_rotulo() == rotulo), None)
+

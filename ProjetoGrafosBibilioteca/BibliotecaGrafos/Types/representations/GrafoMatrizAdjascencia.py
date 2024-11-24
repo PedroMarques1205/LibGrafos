@@ -1,6 +1,6 @@
 from typing import List
-from ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.Aresta import Aresta
-from ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.Vertice import Vertice
+from ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.core.Aresta import Aresta
+from ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.core.Vertice import Vertice
 
 
 class GrafoMatrizAdjascencia:

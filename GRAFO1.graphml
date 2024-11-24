@@ -9,9 +9,13 @@
       <node id="B" label="B" />
       <node id="C" label="C" />
       <node id="D" label="D" />
+      <node id="E" label="E" />
     </nodes>
     <edges>
-      <edge source="A" target="B" id="0" weight="1" />
+      <edge source="A" target="B" id="0" weight="1.0" />
+      <edge source="A" target="C" id="1" weight="1.0" />
+      <edge source="C" target="B" id="2" weight="1.0" />
+      <edge source="D" target="C" id="3" weight="1.0" />
     </edges>
   </graph>
 </gexf>
