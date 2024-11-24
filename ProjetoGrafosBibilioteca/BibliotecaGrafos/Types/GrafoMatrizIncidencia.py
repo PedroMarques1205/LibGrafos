@@ -49,7 +49,7 @@ class GrafoMatrizIncidencia:
             vertice_rotulo = (
                 vertice.get_rotulo()
                 if vertice.get_rotulo() is not None
-                else str(vertice.get_ponderacao_vertice())
+                else str(vertice.get_peso())
             )
             linha = [self.matriz_incidencia[j][i] for j in range(len(self.matriz_incidencia))]
             linha_formatada = " ".join(f"{valor:>{espacamento}}" for valor in linha)
@@ -206,120 +206,6 @@ class GrafoMatrizIncidencia:
 
         return grafo
 
-    def encontrar_pontes_naive(self):
-        """
-        Método naive para encontrar pontes no grafo.
-        Remove cada aresta e verifica se o grafo se desconecta.
-        """
-        pontes = []
-
-        for aresta in self.arestas:
-            # Cria uma cópia temporária da matriz de incidência e das arestas
-            matriz_backup = [linha[:] for linha in self.matriz_incidencia]
-            arestas_backup = self.arestas[:]
-
-            # Remove a aresta atual
-            self.remover_aresta(aresta)
-
-            # Verifica a conectividade
-            if not self.verificar_conectividade():
-                pontes.append(aresta)
-
-            # Restaura o estado original
-            self.matriz_incidencia = matriz_backup
-            self.arestas = arestas_backup
-
-        return pontes
-
-    def verificar_conectividade(self):
-        """
-        Verifica se o grafo é conectado usando busca em profundidade (DFS).
-        """
-        if not self.vertices:
-            return True  # Grafo vazio é considerado conectado
-
-        visitados = set()
-
-        def dfs(v):
-            visitados.add(v)
-            for aresta in v.get_arestas_de_saida() + v.get_arestas_de_entrada():
-                vizinho = aresta.get_fim() if aresta.get_inicio() == v else aresta.get_inicio()
-                if vizinho not in visitados:
-                    dfs(vizinho)
-
-        # Começa a DFS pelo primeiro vértice
-        dfs(self.vertices[0])
-
-        # Se todos os vértices foram visitados, o grafo é conectado
-        return len(visitados) == len(self.vertices)
-
-    def encontrar_pontes_tarjan(self):
-        """
-        Implementação do algoritmo de Tarjan para encontrar pontes em um grafo.
-        """
-        tempo = [0]  # Tempo DFS compartilhado entre as chamadas
-        discovery_time = {}  # Tempo de descoberta de cada vértice
-        low_time = {}  # Tempo mínimo alcançável de cada vértice
-        parent = {}  # Pai de cada vértice na DFS
-        pontes = []  # Lista de pontes encontradas
-
-        # Inicializa as estruturas de controle
-        for vertice in self.vertices:
-            discovery_time[vertice] = -1
-            low_time[vertice] = -1
-            parent[vertice] = None
-
-        # Função de DFS iterativa
-        def dfs_iterativo(vertice_inicial):
-            stack = [(vertice_inicial,
-                      iter(vertice_inicial.get_arestas_de_saida() + vertice_inicial.get_arestas_de_entrada()))]
-            discovery_time[vertice_inicial] = low_time[vertice_inicial] = tempo[0]
-            tempo[0] += 1
-
-            while stack:
-                vertice_atual, vizinhos = stack[-1]
-                try:
-                    aresta = next(vizinhos)
-                    vizinho = aresta.get_fim() if aresta.get_inicio() == vertice_atual else aresta.get_inicio()
-
-                    if discovery_time[vizinho] == -1:  # Vizinho ainda não foi visitado
-                        parent[vizinho] = vertice_atual
-                        discovery_time[vizinho] = low_time[vizinho] = tempo[0]
-                        tempo[0] += 1
-                        stack.append((vizinho, iter(vizinho.get_arestas_de_saida() + vizinho.get_arestas_de_entrada())))
-                    elif vizinho != parent[vertice_atual]:  # Vizinho já visitado e não é pai
-                        low_time[vertice_atual] = min(low_time[vertice_atual], discovery_time[vizinho])
-                except StopIteration:
-                    stack.pop()
-                    if parent[vertice_atual] is not None:
-                        low_time[parent[vertice_atual]] = min(low_time[parent[vertice_atual]], low_time[vertice_atual])
-                        if low_time[vertice_atual] > discovery_time[parent[vertice_atual]]:
-                            pontes.append(aresta)
-
-        # Executa a DFS iterativa em cada componente conexo
-        for vertice in self.vertices:
-            if discovery_time[vertice] == -1:
-                dfs_iterativo(vertice)
-
-        return pontes
-
-    def eh_euleriano(self):
-        """
-        Verifica se o grafo é euleriano:
-        - Grafo não direcionado: Todos os vértices têm grau par.
-        - Grafo direcionado: Grau de entrada = Grau de saída para todos os vértices.
-        """
-        if self.isDirecionado:
-            for vertice in self.vertices:
-                if len(vertice.get_arestas_de_entrada()) != len(vertice.get_arestas_de_saida()):
-                    return False
-        else:
-            for vertice in self.vertices:
-                if (len(vertice.get_arestas_de_entrada()) + len(vertice.get_arestas_de_saida())) % 2 != 0:
-                    return False
-
-        return True
-
     def copiar_grafo(self):
         # Cria um novo grafo, copiando o tipo de direção do grafo original
         novo_grafo = GrafoMatrizIncidencia(self.isDirecionado)
@@ -328,7 +214,7 @@ class GrafoMatrizIncidencia:
         vertices_map = {}  # Mapeia os vértices antigos para os novos
 
         for vertice in self.vertices:
-            novo_vertice = Vertice(vertice.get_ponderacao_vertice(), vertice.get_rotulo())
+            novo_vertice = Vertice(vertice.get_peso(), vertice.get_rotulo())
             novo_grafo.adicionar_vertice(novo_vertice)
             vertices_map[vertice] = novo_vertice
 
@@ -343,9 +229,6 @@ class GrafoMatrizIncidencia:
         return novo_grafo
 
     def verificar_grau_vertices(self):
-        """
-        Verifica o grau de todos os vértices no grafo.
-        """
         for vertice in self.vertices:
             vertice.grau = len(vertice.get_arestas_de_saida()) + len(vertice.get_arestas_de_entrada())
 
@@ -381,7 +264,7 @@ class GrafoMatrizIncidencia:
                         arestas_restantes.remove(aresta)
 
         caminho_formatado = " / ".join(
-            [f"{aresta.get_inicio().get_ponderacao_vertice()} / {aresta.get_fim().get_ponderacao_vertice()}" for aresta in
+            [f"{aresta.get_inicio().get_peso()} / {aresta.get_fim().get_peso()}" for aresta in
              caminho])
         return caminho_formatado
 
@@ -419,7 +302,7 @@ class GrafoMatrizIncidencia:
             break
 
         caminho_formatado = " / ".join(
-            [f"{aresta.get_inicio().get_ponderacao_vertice()} / {aresta.get_fim().get_ponderacao_vertice()}" for aresta in
+            [f"{aresta.get_inicio().get_peso()} / {aresta.get_fim().get_peso()}" for aresta in
              caminho])
         return caminho_formatado
 

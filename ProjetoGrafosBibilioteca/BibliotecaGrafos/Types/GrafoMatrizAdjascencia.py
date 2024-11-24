@@ -23,8 +23,8 @@ class GrafoMatrizAdjascencia:
         V2 = aresta.get_fim()
         peso = aresta.get_peso()
 
-        indice1 = next((i for i, vertice in enumerate(self.vertices) if vertice.peso_vertice == V1.get_ponderacao_vertice()), None)
-        indice2 = next((i for i, vertice in enumerate(self.vertices) if vertice.peso_vertice == V2.get_ponderacao_vertice()), None)
+        indice1 = next((i for i, vertice in enumerate(self.vertices) if vertice.peso_vertice == V1.get_peso()), None)
+        indice2 = next((i for i, vertice in enumerate(self.vertices) if vertice.peso_vertice == V2.get_peso()), None)
 
         if indice1 is None or indice2 is None:
             raise ValueError("Vértice não encontrado. (MA)")
@@ -190,15 +190,15 @@ class GrafoMatrizAdjascencia:
         for vertice in self.vertices:
             grafo_invertido.adicionar_vertice(vertice)
         for (vertice1, vertice2), peso in self.arestas.items():
-            grafo_invertido.criar_arestas(vertice2, vertice1, peso)
+            grafo_invertido.adicionar_arestas(Aresta(vertice1, vertice2,"ss", peso))
         return grafo_invertido
 
     def remover_aresta(self, aresta: Aresta):
         rotulo_vertice1 = aresta.get_inicio()
         rotulo_vertice2 = aresta.get_fim()
 
-        indice1 = next((i for i, vertice in enumerate(self.vertices) if vertice.peso_vertice == rotulo_vertice1), None)
-        indice2 = next((i for i, vertice in enumerate(self.vertices) if vertice.peso_vertice == rotulo_vertice2), None)
+        indice1 = next((i for i, vertice in enumerate(self.vertices) if vertice.peso_vertice == rotulo_vertice1.get_peso()), None)
+        indice2 = next((i for i, vertice in enumerate(self.vertices) if vertice.peso_vertice == rotulo_vertice2.get_peso()), None)
 
         if indice1 is None or indice2 is None:
             raise ValueError("Vértice não encontrado.")

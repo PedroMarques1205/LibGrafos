@@ -7,7 +7,7 @@ class Vertice:
         self.arestas_de_saida = []
         self.rotulo = rotulo
 
-    def get_ponderacao_vertice(self):
+    def get_peso(self):
         return self.peso_vertice
 
     def set_valor_vertice(self, valor_vertice):

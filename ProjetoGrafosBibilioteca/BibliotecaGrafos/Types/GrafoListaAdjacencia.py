@@ -13,8 +13,8 @@ class GrafoListaAdjacencia:
         self.vertices.append(vertice)
 
     def adicionar_aresta(self, aresta: Aresta):
-        vertice_inicio = self.get_vertice(aresta.get_inicio().get_ponderacao_vertice())
-        vertice_fim = self.get_vertice(aresta.get_fim().get_ponderacao_vertice())
+        vertice_inicio = self.get_vertice(aresta.get_inicio().get_peso())
+        vertice_fim = self.get_vertice(aresta.get_fim().get_peso())
 
         if vertice_inicio is not None and vertice_fim is not None:
             self.arestas.append(aresta)
@@ -26,7 +26,7 @@ class GrafoListaAdjacencia:
 
     def get_vertice(self, valor_vertice):
         for vertice in self.vertices:
-            if vertice.get_ponderacao_vertice() == valor_vertice:
+            if vertice.get_peso() == valor_vertice:
                 return vertice
         return None
 
@@ -47,8 +47,8 @@ class GrafoListaAdjacencia:
     def get_aresta(self, valor_vertice_inicio, valor_vertice_fim):
         # Itera pela lista de arestas para encontrar aquela conectando os vértices especificados.
         for aresta in self.arestas:
-            if (aresta.get_inicio().get_ponderacao_vertice() == valor_vertice_inicio and
-                    aresta.get_fim().get_ponderacao_vertice() == valor_vertice_fim):
+            if (aresta.get_inicio().get_peso() == valor_vertice_inicio and
+                    aresta.get_fim().get_peso() == valor_vertice_fim):
                 return aresta
         # Retorna None se a aresta não existir.
         return None
@@ -80,12 +80,12 @@ class GrafoListaAdjacencia:
         # Exibe os cabeçalhos da matriz.
         print("  ", end="")
         for vertice in self.vertices:
-            print(vertice.get_ponderacao_vertice(), end=" ")
+            print(vertice.get_peso(), end=" ")
         print()
 
         # Exibe os valores da matriz.
         for i, vertice in enumerate(self.vertices):
-            print(vertice.get_ponderacao_vertice(), end=" ")
+            print(vertice.get_peso(), end=" ")
             for j in range(tamanho):
                 print(matriz_adjacencia[i][j], end=" ")
             print()
@@ -118,7 +118,7 @@ class GrafoListaAdjacencia:
 
         # Exibe os valores da matriz.
         for i, vertice in enumerate(self.vertices):
-            print(vertice.get_ponderacao_vertice(), end=" ")
+            print(vertice.get_peso(), end=" ")
             for j in range(qtdArestas):
                 print(matriz_incidencia[i][j], end=" ")
             print()
@@ -138,13 +138,13 @@ class GrafoListaAdjacencia:
 
             # Adiciona os valores dos vértices de destino para cada aresta de saída.
             for aresta in arestasDeSaidaVertice:
-                listaAdjacenciaDoVertice.append(aresta.get_fim().get_ponderacao_vertice())
+                listaAdjacenciaDoVertice.append(aresta.get_fim().get_peso())
 
             listasDeAdjacencia.append(listaAdjacenciaDoVertice)
 
         # Exibe a lista de adjacência no console.
         for i, vertice in enumerate(self.vertices):
-            print(f"Vértice {vertice.get_ponderacao_vertice()}: {listasDeAdjacencia[i]}")
+            print(f"Vértice {vertice.get_peso()}: {listasDeAdjacencia[i]}")
 
     # Função para verificar a adjacência entre dois vértices.
     # Entrada:
@@ -174,157 +174,7 @@ class GrafoListaAdjacencia:
             aresta_para_remover.get_fim().get_arestas_de_entrada().remove(aresta_para_remover)
         else:
             print(f"Aresta não encontrada.")
-
-    # Função para verificar se o grafo é simplesmente conexo.
-    # Um grafo é simplesmente conexo se for conectado (todos os vértices são alcançáveis a partir de qualquer outro).
-    # Retorno:
-    # - Retorna True se o grafo for simplesmente conexo; caso contrário, False.
-    def eh_simplesmente_conexo(self):
-        visitados = set()
-
-        # Função de busca em profundidade (DFS) para visitar vértices conectados.
-        def dfs(vertice):
-            visitados.add(vertice)
-            for aresta in vertice.get_arestas_de_saida():
-                proximo_vertice = aresta.get_fim()
-                if proximo_vertice not in visitados:
-                    dfs(proximo_vertice)
-
-        if not self.vertices:
-            return True
-
-        dfs(self.vertices[0])
-
-        return len(visitados) == len(self.vertices)
-
-    # Função para verificar se o grafo é semi-fortemente conexo.
-    # Um grafo é semi-fortemente conexo se sua versão não direcionada for simplesmente conexa.
-    # Retorno:
-    # - Retorna True se o grafo for semi-fortemente conexo; caso contrário, False.
-    def eh_semi_fortemente_conexo(self):
-        grafo_nao_direcionado = Grafo()
-
-        # Cria uma cópia do grafo original como não direcionado.
-        for vertice in self.vertices:
-            grafo_nao_direcionado.adicionar_vertice(vertice.get_ponderacao_vertice())
-        for aresta in self.arestas:
-            grafo_nao_direcionado.adicionar_aresta(
-                aresta.get_inicio().get_ponderacao_vertice(),
-                aresta.get_fim().get_ponderacao_vertice()
-            )
-            grafo_nao_direcionado.adicionar_aresta(
-                aresta.get_fim().get_ponderacao_vertice(),
-                aresta.get_inicio().get_ponderacao_vertice()
-            )
-
-        return grafo_nao_direcionado.eh_simplesmente_conexo()
-
-    # Função para verificar se o grafo é fortemente conexo.
-    # Um grafo é fortemente conexo se todos os vértices forem alcançáveis a partir de qualquer outro, considerando a direção das arestas.
-    # Retorno:
-    # - Retorna True se o grafo for fortemente conexo; caso contrário, False.
-    def eh_fortemente_conexo(self):
-        # Função de busca em profundidade (DFS) com direção especificada.
-        def dfs(vertice, visitados, arestas_saida=True):
-            visitados.add(vertice)
-            arestas = vertice.get_arestas_de_saida() if arestas_saida else vertice.get_arestas_de_entrada()
-            for aresta in arestas:
-                proximo_vertice = aresta.get_fim() if arestas_saida else aresta.get_inicio()
-                if proximo_vertice not in visitados:
-                    dfs(proximo_vertice, visitados, arestas_saida)
-
-        if not self.vertices:
-            return True # Um grafo vazio é considerado fortemente conexo.
-
-        # Verifica se todos os vértices são alcançáveis na direção das arestas.
-        visitados = set()
-        dfs(self.vertices[0], visitados, True)
-        if len(visitados) != len(self.vertices):
-            return False
-
-        # Verifica se todos os vértices são alcançáveis na direção inversa das arestas.
-        visitados.clear()
-        dfs(self.vertices[0], visitados, False)
-        return len(visitados) == len(self.vertices)
-
-    # Método para contar o número de componentes fortemente conexos em um grafo dirigido.
-    # Utiliza o algoritmo de Kosaraju, que consiste em duas passagens de DFS.
-    def contar_componentes_fortemente_conexos(self):
-        # Lista para armazenar a ordem de finalização dos vértices na primeira DFS.
-        ordem_finalizacao = []
-
-        # Conjunto para marcar os vértices visitados durante as DFS.
-        visitados = set()
-
-        # Primeira passagem da DFS: constrói a ordem de finalização.
-        # Função auxiliar para realizar a DFS na primeira passagem.
-        # Objetivo: Ordenar os vértices de acordo com o tempo de finalização.
-        def dfs_primeira_passagem(vertice):
-            # Marca o vértice como visitado.
-            visitados.add(vertice)
-
-            # Explora todas as arestas de saída do vértice atual.
-            for aresta in vertice.get_arestas_de_saida():
-                # Obtém o vértice de destino da aresta.
-                proximo_vertice = aresta.get_fim()
-
-                # Se o vértice de destino ainda não foi visitado, faz a DFS nele.
-                if proximo_vertice not in visitados:
-                    dfs_primeira_passagem(proximo_vertice)
-
-            # Após explorar todas as arestas do vértice, adiciona-o à ordem de finalização.
-            ordem_finalizacao.append(vertice)
-
-        # Segunda passagem da DFS: encontra os componentes fortemente conexos.
-        # Função auxiliar para realizar a DFS na segunda passagem.
-        # Objetivo: Explorar componentes conexos no grafo transposto.
-        def dfs_segunda_passagem(vertice, componente):
-
-            # Marca o vértice como visitado.
-            visitados.add(vertice)
-
-            # Adiciona o vértice atual ao componente fortemente conexo em construção.
-            componente.append(vertice)
-
-            # Explora todas as arestas de entrada do vértice atual (grafo transposto).
-            for aresta in vertice.get_arestas_de_entrada():
-                # Obtém o vértice de origem da aresta.
-                proximo_vertice = aresta.get_inicio()
-                # Se o vértice de origem ainda não foi visitado, faz a DFS nele.
-                if proximo_vertice not in visitados:
-                    dfs_segunda_passagem(proximo_vertice, componente)
-
-        # Executa a primeira passagem de DFS em todos os vértices do grafo.
-        for vertice in self.vertices:
-            # Se o vértice ainda não foi visitado, inicia a DFS a partir dele.
-            if vertice not in visitados:
-                dfs_primeira_passagem(vertice)
-
-        # Limpa o conjunto de vértices visitados para reutilizá-lo na segunda passagem.
-        visitados.clear()
-
-        # Lista para armazenar todos os componentes fortemente conexos.
-        componentes = []
-
-        # Processa os vértices na ordem inversa de finalização.
-        # Essa ordem garante que exploramos componentes no grafo transposto.
-        while ordem_finalizacao:
-            # Remove o último vértice da ordem de finalização.
-            vertice = ordem_finalizacao.pop()
-
-            # Se o vértice ainda não foi visitado, ele pertence a um novo componente.
-            if vertice not in visitados:
-                # Lista para armazenar o componente atual.
-                componente = []
-                # Inicia a DFS para explorar o componente conectado no grafo transposto.
-                dfs_segunda_passagem(vertice, componente)
-                # Adiciona o componente encontrado à lista de componentes.
-                componentes.append(componente)
-
-        # Retorna o número de componentes fortemente conexos encontrados.
-        return len(componentes)
     
-    # Método para criar um grafo com uma quantidade definida de vértices 
     @staticmethod
     def criar_grafo_com_x_vertices():
         try:

@@ -7,26 +7,37 @@ import sys
 from ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.Vertice import Vertice
 
 if __name__ == "__main__":
-    grafo = Grafo("coisa", True)
+    grafo_maior = Grafo("grafo_maior", False)  # Grafo não direcionado
 
+    # Criando os vértices
     vA = Vertice(peso_vertice='1', rotulo='A')
     vB = Vertice(peso_vertice='2', rotulo='B')
     vC = Vertice(peso_vertice='3', rotulo='C')
-    vD = Vertice(peso_vertice='8', rotulo='D')
+    vD = Vertice(peso_vertice='4', rotulo='D')
+    vE = Vertice(peso_vertice='5', rotulo='E')
+    vF = Vertice(peso_vertice='6', rotulo='F')
 
-    grafo.adicionarVertice(vA)
-    grafo.adicionarVertice(vB)
-    grafo.adicionarVertice(vC)
-    grafo.adicionarVertice(vD)
+    # Adicionando os vértices ao grafo
+    grafo_maior.adicionarVertice(vA)
+    grafo_maior.adicionarVertice(vB)
+    grafo_maior.adicionarVertice(vC)
+    grafo_maior.adicionarVertice(vD)
+    grafo_maior.adicionarVertice(vE)
+    grafo_maior.adicionarVertice(vF)
 
-    grafo.adicionarAresta(Aresta(vA, vB, rotulo='e1', peso=1))
-    grafo.adicionarAresta(Aresta(vB, vC, rotulo='e2', peso=1))
-    grafo.adicionarAresta(Aresta(vC, vD, rotulo='e3', peso=1))
+    # Adicionando as arestas ao grafo
+    grafo_maior.adicionarAresta(Aresta(vA, vB, rotulo='e1', peso=1))
+    grafo_maior.adicionarAresta(Aresta(vB, vC, rotulo='e2', peso=1))
+    grafo_maior.adicionarAresta(Aresta(vC, vD, rotulo='e3', peso=1))
+    grafo_maior.adicionarAresta(Aresta(vD, vA, rotulo='e4', peso=1))
 
+    grafo_maior.adicionarAresta(Aresta(vA, vE, rotulo='e5', peso=1))
+    grafo_maior.adicionarAresta(Aresta(vE, vF, rotulo='e6', peso=1))
+    grafo_maior.adicionarAresta(Aresta(vF, vD, rotulo='e7', peso=1))
+    grafo_maior.adicionarAresta(Aresta(vD, vB, rotulo='e8', peso=1))
 
-    grafo.printar_matriz_adjacencia()
+    print(grafo_maior.fleury_tarjan())
 
-    grafo.criar_arquivo_grafo_graphml()
 
 
 

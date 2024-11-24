@@ -44,8 +44,8 @@ class Grafo:
         A1 = aresta.get_inicio()
         A2 = aresta.get_fim()
 
-        indice1 = next((i for i, vertice in enumerate(self.vertices) if vertice.peso_vertice == A1.get_ponderacao_vertice()), None)
-        indice2 = next((i for i, vertice in enumerate(self.vertices) if vertice.peso_vertice == A2.get_ponderacao_vertice()), None)
+        indice1 = next((i for i, vertice in enumerate(self.vertices) if vertice.peso_vertice == A1.get_peso()), None)
+        indice2 = next((i for i, vertice in enumerate(self.vertices) if vertice.peso_vertice == A2.get_peso()), None)
 
         if (indice1 == None or indice2 == None):
             raise ValueError("FOI AQUI QUE ESSE ERRO ESTOUROU.")
@@ -135,27 +135,252 @@ class Grafo:
         return len(self.vertices) == 0
 
     def checar_se_grafo_completo(self):
-        print('a')
+        for vertice in self.vertices:
+            if len(vertice.get_arestas_de_saida()) != len(self.vertices) - 1:
+                return False
+
+        return True
 
     def checar_se_fortemente_conexo(self):
-        print('a')
+        def dfs(vertice, visitados, arestas_saida=True):
+            visitados.add(vertice)
+            arestas = vertice.get_arestas_de_saida() if arestas_saida else vertice.get_arestas_de_entrada()
+            for aresta in arestas:
+                proximo_vertice = aresta.get_fim() if arestas_saida else aresta.get_inicio()
+                if proximo_vertice not in visitados:
+                    dfs(proximo_vertice, visitados, arestas_saida)
+
+        if not self.vertices:
+            return True
+
+        visitados = set()
+        dfs(self.vertices[0], visitados, True)
+        if len(visitados) != len(self.vertices):
+            return False
+
+        visitados.clear()
+        dfs(self.vertices[0], visitados, False)
+        return len(visitados) == len(self.vertices)
 
     def checar_se_semifortemente_conexo(self):
-        print('a')
+        grafo_nao_direcionado = Grafo(self.id,self.isDirecionado)
+
+        for vertice in self.vertices:
+            grafo_nao_direcionado.adicionarVertice(vertice.get_peso())
+        for aresta in self.arestas:
+            grafo_nao_direcionado.adicionarAresta(aresta)
+            grafo_nao_direcionado.adicionarAresta(aresta)
+        return grafo_nao_direcionado.checar_se_simplesmente_conexo()
 
     def checar_se_simplesmente_conexo(self):
-        print('a')
+        visitados = set()
+        tem_ciclo = [False]
+
+        def dfs(vertice, parent):
+            visitados.add(vertice)
+            for aresta in vertice.get_arestas_de_saida():
+                proximo_vertice = aresta.get_fim()
+                if proximo_vertice not in visitados:
+                    dfs(proximo_vertice, vertice)
+                elif proximo_vertice != parent:
+                    tem_ciclo[0] = True
+
+        if not self.vertices:
+            return True
+
+        dfs(self.vertices[0], None)
+
+        return len(visitados) == len(self.vertices) and not tem_ciclo[0]
 
     def checar_quantidade_de_componentes_fortemente_conexos(self):
-        print('a')
+        ordem_finalizacao = []
+
+        visitados = set()
+
+        def dfs_primeira_passagem(vertice):
+            visitados.add(vertice)
+
+            for aresta in vertice.get_arestas_de_saida():
+                proximo_vertice = aresta.get_fim()
+
+                if proximo_vertice not in visitados:
+                    dfs_primeira_passagem(proximo_vertice)
+
+            ordem_finalizacao.append(vertice)
+
+        def dfs_segunda_passagem(vertice, componente):
+
+            visitados.add(vertice)
+
+            componente.append(vertice)
+
+            for aresta in vertice.get_arestas_de_entrada():
+                proximo_vertice = aresta.get_inicio()
+                if proximo_vertice not in visitados:
+                    dfs_segunda_passagem(proximo_vertice, componente)
+
+        for vertice in self.vertices:
+            if vertice not in visitados:
+                dfs_primeira_passagem(vertice)
+
+        visitados.clear()
+
+        componentes = []
+
+        while ordem_finalizacao:
+            vertice = ordem_finalizacao.pop()
+
+            if vertice not in visitados:
+                componente = []
+                dfs_segunda_passagem(vertice, componente)
+                componentes.append(componente)
+
+        return len(componentes)
 
     def checar_ponte(self):
-        print('a')
+        return self.checar_pontes_tarjan()
 
     def checar_articulacao(self):
-        print('a')
+        print('IMPLEMENTAR DEPOIS')
 
     # PARTE 2
+
+    def checar_pontes_naive(self):
+
+        pontes = []
+
+        for aresta in self.arestas[:]:
+            self.removerAresta(aresta.get_inicio().get_rotulo(), aresta.get_fim().get_rotulo())
+
+            if not self.checar_se_simplesmente_conexo():
+                pontes.append(aresta)
+
+            self.adicionarAresta(aresta)
+
+        return pontes
+
+    def checar_pontes_tarjan(self):
+        tempo = [0]
+        discovery_time = {}
+        low_time = {}
+        parent = {}
+        pontes = []
+
+        for vertice in self.vertices:
+            discovery_time[vertice] = -1
+            low_time[vertice] = -1
+            parent[vertice] = None
+
+        def dfs_iterativo(vertice_inicial):
+            global aresta
+            stack = [(vertice_inicial,
+                      iter(vertice_inicial.get_arestas_de_saida() + vertice_inicial.get_arestas_de_entrada()))]
+            discovery_time[vertice_inicial] = low_time[vertice_inicial] = tempo[0]
+            tempo[0] += 1
+
+            while stack:
+                vertice_atual, vizinhos = stack[-1]
+                try:
+                    aresta = next(vizinhos)
+                    vizinho = aresta.get_fim() if aresta.get_inicio() == vertice_atual else aresta.get_inicio()
+
+                    if discovery_time[vizinho] == -1:
+                        parent[vizinho] = vertice_atual
+                        discovery_time[vizinho] = low_time[vizinho] = tempo[0]
+                        tempo[0] += 1
+                        stack.append((vizinho, iter(vizinho.get_arestas_de_saida() + vizinho.get_arestas_de_entrada())))
+                    elif vizinho != parent[vertice_atual]:
+                        low_time[vertice_atual] = min(low_time[vertice_atual], discovery_time[vizinho])
+                except StopIteration:
+                    stack.pop()
+                    if parent[vertice_atual] is not None:
+                        low_time[parent[vertice_atual]] = min(low_time[parent[vertice_atual]], low_time[vertice_atual])
+                        if low_time[vertice_atual] > discovery_time[parent[vertice_atual]]:
+                            pontes.append(aresta)
+
+        for vertice in self.vertices:
+            if discovery_time[vertice] == -1:
+                dfs_iterativo(vertice)
+
+        return pontes
+
+    def fleury_naive(self):
+        """
+        Implementação do Método de Fleury utilizando encontrar_pontes_naive.
+        """
+        self.verificar_grau_vertices()
+        if len([v for v in self.vertices if v.grau % 2 != 0]) > 2:
+            raise Exception("O grafo não possui caminho euleriano.")
+
+        v_inicial = next((v for v in self.vertices if v.grau % 2 != 0), self.vertices[0])
+        caminho = []
+        arestas_restantes = self.arestas[:]
+
+        while arestas_restantes:
+            pontes = self.checar_pontes_naive()
+
+            # Iterar sobre todos os vértices do grafo
+            for vertice in self.vertices:  # Supondo que 'self.vertices' seja a lista de vértices no grafo
+                # Pegar as arestas de saída e de entrada de cada vértice
+                for aresta in vertice.get_arestas_de_saida() + vertice.get_arestas_de_entrada():
+                    # Verifica se a aresta é uma ponte e se há mais de uma aresta restante
+                    if aresta in pontes and len(arestas_restantes) > 1:
+                        continue  # Pula as pontes quando há mais de uma aresta restante
+
+                    caminho.append(aresta)
+                    # Atualiza o vértice inicial com base na aresta
+                    v_inicial = aresta.get_fim() if aresta.get_inicio() == v_inicial else aresta.get_inicio()
+
+                    # Remove a aresta da lista de arestas restantes
+                    if aresta in arestas_restantes:
+                        arestas_restantes.remove(aresta)
+
+        caminho_formatado = " / ".join(
+            [f"{aresta.get_inicio().get_peso()} / {aresta.get_fim().get_peso()}" for aresta in
+             caminho])
+        return caminho_formatado
+
+    def fleury_tarjan(self):
+        """
+        Implementação do Método de Fleury utilizando encontrar_pontes_tarjan.
+        """
+        self.verificar_grau_vertices()
+        if len([v for v in self.vertices if v.grau % 2 != 0]) > 2:
+            raise Exception("O grafo não possui caminho euleriano.")
+
+        v_inicial = next((v for v in self.vertices if v.grau % 2 != 0), self.vertices[0])
+        caminho = []
+        arestas_restantes = self.arestas[:]
+
+        while arestas_restantes:
+            pontes = self.checar_pontes_tarjan()
+
+            # Iterar sobre todos os vértices do grafo
+            for vertice in self.vertices:  # Supondo que 'self.vertices' seja a lista de vértices no grafo
+                # Pegar as arestas de entrada e de saída de cada vértice
+                for aresta in vertice.get_arestas_de_saida() + vertice.get_arestas_de_entrada():
+                    # Verifica se a aresta é uma ponte e se há mais de uma aresta restante
+                    if aresta in pontes and len(arestas_restantes) > 1:
+                        continue  # Pula as pontes quando há mais de uma aresta restante
+
+                    caminho.append(aresta)
+                    # Atualiza o vértice inicial com base na aresta
+                    v_inicial = aresta.get_fim() if aresta.get_inicio() == v_inicial else aresta.get_inicio()
+
+                    # Remove a aresta da lista de arestas restantes
+                    if aresta in arestas_restantes:
+                        arestas_restantes.remove(aresta)
+
+            break
+
+        caminho_formatado = " / ".join(
+            [f"{aresta.get_inicio().get_peso()} / {aresta.get_fim().get_peso()}" for aresta in
+             caminho])
+        return caminho_formatado
+
+    def verificar_grau_vertices(self):
+        for vertice in self.vertices:
+            vertice.grau = len(vertice.get_arestas_de_saida()) + len(vertice.get_arestas_de_entrada())
 
     # PARTE 3
 
