@@ -12,7 +12,7 @@ from ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.Vertice import Vertice
 class Grafo:
     def __init__(self, id: str, isDirecionado: bool):
         self.vertices = []
-        self.arestas = []
+        self.arestas = {}
         self.isDirecionado = isDirecionado
         self.listaAdjacencia = GrafoListaAdjacencia(self.isDirecionado)
         self.matrizIncidencia = GrafoMatrizIncidencia(self.isDirecionado)
@@ -43,32 +43,35 @@ class Grafo:
     def adicionarAresta(self, aresta: Aresta):
         A1 = aresta.get_inicio()
         A2 = aresta.get_fim()
+        peso = aresta.get_peso()  # Peso da aresta, se houver
 
-        indice1 = next((i for i, vertice in enumerate(self.vertices) if vertice.valor_vertice == A1.get_valor_vertice()), None)
-        indice2 = next((i for i, vertice in enumerate(self.vertices) if vertice.valor_vertice == A2.get_valor_vertice()), None)
+        if A1 not in self.vertices or A2 not in self.vertices:
+            raise ValueError("Os vértices da aresta devem existir no grafo.")
 
-        if (indice1 == None or indice2 == None):
-            raise ValueError("FOI AQUI QUE ESSE ERRO ESTOUROU.")
+        # Adicionar ao dicionário de arestas
+        self.arestas[(A1.valor_vertice, A2.valor_vertice)] = peso
+        if not self.isDirecionado:
+            self.arestas[(A2.valor_vertice, A1.valor_vertice)] = peso
 
-        self.arestas.append(aresta)
+        # Atualizar as representações auxiliares
         self.listaAdjacencia.adicionar_aresta(aresta)
         self.matrizAdjacencia.adicionar_arestas(aresta)
         self.matrizIncidencia.adicionar_aresta(aresta)
 
     def removerAresta(self, rotulo_inicio: str, rotulo_fim: str):
-        isFound = False
-
-        for aresta in self.arestas:
-            if aresta.get_inicio().rotulo == rotulo_inicio and aresta.get_fim().rotulo == rotulo_fim:
-                self.arestas.remove(aresta)
-                self.listaAdjacencia.remover_aresta(aresta)
-                self.matrizAdjacencia.remover_aresta(aresta)
-                self.matrizIncidencia.remover_aresta(aresta)
-                isFound = True
-                break
-
-        if not isFound:
+        if (rotulo_inicio, rotulo_fim) not in self.arestas:
             raise ValueError("Tentou remover uma aresta que não existe.")
+
+        # Remover do dicionário de arestas
+        del self.arestas[(rotulo_inicio, rotulo_fim)]
+        if not self.isDirecionado:
+            del self.arestas[(rotulo_fim, rotulo_inicio)]
+
+        # Atualizar as representações auxiliares
+        self.listaAdjacencia.remover_aresta(rotulo_inicio, rotulo_fim)
+        self.matrizAdjacencia.remover_aresta(rotulo_inicio, rotulo_fim)
+        self.matrizIncidencia.remover_aresta(rotulo_inicio, rotulo_fim)
+
 
     def criar_grafo_com_x_vertices(self):
         print('a')
