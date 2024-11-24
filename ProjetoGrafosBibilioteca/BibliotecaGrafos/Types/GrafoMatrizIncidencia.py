@@ -138,6 +138,22 @@ class GrafoMatrizIncidencia:
         for vertice in self.vertices:
             vertice.grau = len(vertice.get_arestas_de_saida()) + len(vertice.get_arestas_de_entrada())
 
+    def verificar_conectividade(self):
+        if not self.vertices:
+            return True
+        visitados = set()
+
+        def dfs(v):
+            visitados.add(v)
+            for aresta in v.get_arestas_de_saida() + v.get_arestas_de_entrada():
+                vizinho = aresta.get_fim() if aresta.get_inicio() == v else aresta.get_inicio()
+                if vizinho not in visitados:
+                    dfs(vizinho)
+
+        dfs(self.vertices[0])
+
+        return len(visitados) == len(self.vertices)
+
     def encontrar_pontes_naive(self):
         pontes = []
         for aresta in self.arestas:

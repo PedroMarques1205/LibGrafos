@@ -40,6 +40,11 @@ class Grafo:
         self.matrizIncidencia.exibir_matriz()
 
     def adicionarVertice(self, vertice: Vertice):
+
+        for v in self.vertices:
+            if v.get_rotulo() == vertice.get_rotulo():  # Comparação do rótulo
+                raise ValueError(f"Erro: O vértice com o rótulo {vertice.get_rotulo()} já existe.")
+
         self.vertices.append(vertice)
         self.listaAdjacencia.adicionar_vertice(vertice)
         self.matrizIncidencia.adicionar_vertice(vertice)
@@ -273,8 +278,55 @@ class Grafo:
     def checar_ponte(self):
         return self.checar_pontes_tarjan()
 
-    def checar_articulacao(self):
-        print('IMPLEMENTAR DEPOIS')
+    def checar_articulacoes(self):
+        tempo = [0]
+        discovery_time = {}
+        low_time = {}
+        parent = {}
+        articulacoes = set()
+
+        for vertice in self.vertices:
+            discovery_time[vertice] = -1
+            low_time[vertice] = -1
+            parent[vertice] = None
+
+        def dfs_iterativo(vertice_inicial):
+            stack = [(vertice_inicial, iter(vertice_inicial.get_arestas_de_saida()))]
+            discovery_time[vertice_inicial] = low_time[vertice_inicial] = tempo[0]
+            tempo[0] += 1
+            filhos = 0
+
+            while stack:
+                vertice_atual, vizinhos = stack[-1]
+                try:
+                    aresta = next(vizinhos)
+                    vizinho = aresta.get_fim() if aresta.get_inicio() == vertice_atual else aresta.get_inicio()
+
+                    if discovery_time[vizinho] == -1:
+                        parent[vizinho] = vertice_atual
+                        discovery_time[vizinho] = low_time[vizinho] = tempo[0]
+                        tempo[0] += 1
+                        filhos += 1
+                        stack.append((vizinho, iter(vizinho.get_arestas_de_saida())))
+
+                    elif vizinho != parent[vertice_atual]:
+                        low_time[vertice_atual] = min(low_time[vertice_atual], discovery_time[vizinho])
+
+                except StopIteration:
+                    stack.pop()
+                    if parent[vertice_atual] is not None:
+                        low_time[parent[vertice_atual]] = min(low_time[parent[vertice_atual]], low_time[vertice_atual])
+
+                        if (parent[vertice_atual] is None and filhos > 1) or (
+                                parent[vertice_atual] is not None and low_time[vertice_atual] >= discovery_time[
+                            parent[vertice_atual]]):
+                            articulacoes.add(vertice_atual)
+
+        for vertice in self.vertices:
+            if discovery_time[vertice] == -1:
+                dfs_iterativo(vertice)
+
+        return articulacoes
 
     # MÉTODOS DA PARTE 2
 
