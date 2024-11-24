@@ -54,5 +54,16 @@ Após implementar ambos os métodos, encontrar um **caminho euleriano** usando o
 
 Implementar a funcionalidade de **ler** e **salvar** grafos em formatos compatíveis com o software de visualização de grafos **Gephi**. Os formatos suportados são: GEXF, GDF, GML, GraphML, Pajek NET, GraphViz DOT, CSV, UCINET DL, Tulip TPL, Netdraw VNA, Spreadsheet. Gerar ilustrações dos grafos criados utilizando o Gephi.
 
+### Relatório:
+
+Entre 12 e 15 páginas;
+Demostrar os resultados obtidos e telas produzidas;
+Em formato de artigo SBC latex: https://www.overleaf.com/latex/templates/sbc-conferences-template/blbxwjwzdngr
+Apresentação em vídeo (demonstração) e presencial (arguição):
+
+### Demostrar os resultados;
+Todos os membros do grupo devem participar;
+Duração da apresentação entre 5 e 10 minutos.
+
 ---
 
