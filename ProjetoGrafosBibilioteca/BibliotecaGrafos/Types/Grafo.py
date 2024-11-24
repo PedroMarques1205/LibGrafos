@@ -82,23 +82,36 @@ class Grafo:
         for v in self.vertices:
             if v.get_rotulo() == rotulo_vertice:
                 v.set_ponderacao(ponderacao_vertice)
-                self.listaAdjacencia.set_ponderacao(rotulo_vertice, ponderacao_vertice)
-                self.matrizAdjacencia.set_ponderacao(rotulo_vertice, ponderacao_vertice)
-                self.matrizIncidencia.set_ponderacao(rotulo_vertice, ponderacao_vertice)
+                self.listaAdjacencia.set_ponderacao_vertice(rotulo_vertice, ponderacao_vertice)
+                self.matrizAdjacencia.set_ponderacao_vertice(rotulo_vertice, ponderacao_vertice)
+                self.matrizIncidencia.set_ponderacao_vertice(rotulo_vertice, ponderacao_vertice)
+                break
 
     def rotular_vertice(self, rotulo_atual_vertice: str, rotulo_novo_vertice: str):
         for v in self.vertices:
             if v.get_rotulo() == rotulo_atual_vertice:
                 v.set_rotulo(rotulo_novo_vertice)
-                self.listaAdjacencia.set_rotulo(rotulo_atual_vertice, rotulo_novo_vertice)
-                self.matrizAdjacencia.set_rotulo(rotulo_atual_vertice, rotulo_novo_vertice)
-                self.matrizIncidencia.set_rotulo(rotulo_atual_vertice, rotulo_novo_vertice)
+                self.listaAdjacencia.set_rotulacao_vertice(rotulo_atual_vertice, rotulo_novo_vertice)
+                self.matrizAdjacencia.set_rotulacao_vertice(rotulo_atual_vertice, rotulo_novo_vertice)
+                self.matrizIncidencia.set_rotulacao_vertice(rotulo_atual_vertice, rotulo_novo_vertice)
+                break
 
-    def ponderar_aresta(self):
-        print('a')
+    def ponderar_aresta(self, rotulo_aresta: str, peso_aresta):
+        for a in self.arestas:
+            if a.get_rotulo() == rotulo_aresta:
+                a.set_peso(peso_aresta)
+                self.listaAdjacencia.set_ponderacao_aresta(rotulo_aresta, peso_aresta)
+                self.matrizAdjacencia.set_ponderacao_aresta(rotulo_aresta, peso_aresta)
+                self.matrizIncidencia.set_ponderacao_aresta(rotulo_aresta, peso_aresta)
+                break
 
-    def rotular_aresta(self):
-        print('a')
+    def rotular_aresta(self, rotulo_atual_aresta: str, rotulo_novo_aresta: str):
+        for a in self.arestas:
+            if a.get_rotulo() == rotulo_atual_aresta:
+                a.set_rotulo(rotulo_novo_aresta)
+                self.listaAdjacencia.set_rotulacao_aresta(rotulo_atual_aresta, rotulo_novo_aresta)
+                self.matrizAdjacencia.set_rotulacao_aresta(rotulo_atual_aresta, rotulo_novo_aresta)
+                self.matrizIncidencia.set_rotulacao_aresta(rotulo_atual_aresta, rotulo_novo_aresta)
 
     def checar_adjacencia_entre_vertices(self):
         print('a')
