@@ -1,13 +1,30 @@
 from ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.Aresta import Aresta
 from ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.Grafo import Grafo
-from ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.GrafoMatrizIncidencia import GrafoMatrizIncidencia
 import time
 import sys
 
 from ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.Vertice import Vertice
 
+def criar_grafo_grande(quantidade_vertices):
+    grafo = Grafo("grafo_grande", False)
+
+    vertices = []
+    for i in range(quantidade_vertices):
+        vertice = Vertice(peso_vertice=str(i), rotulo=f"V{i}")
+        vertices.append(vertice)
+        grafo.adicionarVertice(vertice)
+
+    for i in range(quantidade_vertices - 1):
+        grafo.adicionarAresta(Aresta(vertices[i], vertices[i + 1], rotulo=f"e{i}", peso=1))
+
+    grafo.adicionarAresta(
+        Aresta(vertices[quantidade_vertices - 1], vertices[0], rotulo=f"e{quantidade_vertices - 1}", peso=1))
+
+    return grafo
+
 if __name__ == "__main__":
-    grafo_maior = Grafo("grafo_maior", False)  # Grafo não direcionado
+    sys.setrecursionlimit(100000000)
+    quantidade_vertices = 10000
 
     vA = Vertice(peso_vertice='1', rotulo='A')
     vB = Vertice(peso_vertice='2', rotulo='B')

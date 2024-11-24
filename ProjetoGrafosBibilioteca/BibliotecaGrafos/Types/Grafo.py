@@ -282,12 +282,19 @@ class Grafo:
     def checar_pontes_naive(self):
         pontes = []
 
-        for aresta in self.arestas[:]:
-            self.removerAresta(aresta.get_inicio().get_rotulo(), aresta.get_fim().get_rotulo())
+        # Itera por todas as arestas do grafo
+        for aresta in self.arestas:
+            u = aresta.get_inicio().get_rotulo()  # Rótulo do vértice de início
+            v = aresta.get_fim().get_rotulo()  # Rótulo do vértice de fim
 
-            if not self.checar_se_simplesmente_conexo():
-                pontes.append(aresta)
+            # Remover a aresta
+            self.removerAresta(u, v)
 
+            # Verificar se o grafo ainda é conexo sem essa aresta
+            if not self.checar_se_simplesmente_conexo():  # Caso o grafo não seja mais conexo
+                pontes.append((u, v))  # Adiciona a aresta como uma ponte
+
+            # Re-adiciona a aresta ao grafo
             self.adicionarAresta(aresta)
 
         return pontes
@@ -306,8 +313,7 @@ class Grafo:
 
         def dfs_iterativo(vertice_inicial):
             global aresta
-            stack = [(vertice_inicial,
-                      iter(vertice_inicial.get_arestas_de_saida() + vertice_inicial.get_arestas_de_entrada()))]
+            stack = [(vertice_inicial, iter(vertice_inicial.get_arestas_de_saida() + vertice_inicial.get_arestas_de_entrada()))]
             discovery_time[vertice_inicial] = low_time[vertice_inicial] = tempo[0]
             tempo[0] += 1
 
@@ -338,32 +344,7 @@ class Grafo:
         return pontes
 
     def fleury_naive(self):
-        self.verificar_grau_vertices()
-        if len([v for v in self.vertices if v.grau % 2 != 0]) > 2:
-            raise Exception("O grafo não possui caminho euleriano.")
-
-        v_inicial = next((v for v in self.vertices if v.grau % 2 != 0), self.vertices[0])
-        caminho = []
-        arestas_restantes = self.arestas[:]
-
-        while arestas_restantes:
-            pontes = self.checar_pontes_naive()
-
-            for vertice in self.vertices:
-                for aresta in vertice.get_arestas_de_saida() + vertice.get_arestas_de_entrada():
-                    if aresta in pontes and len(arestas_restantes) > 1:
-                        continue
-
-                    caminho.append(aresta)
-                    v_inicial = aresta.get_fim() if aresta.get_inicio() == v_inicial else aresta.get_inicio()
-
-                    if aresta in arestas_restantes:
-                        arestas_restantes.remove(aresta)
-
-        caminho_formatado = " / ".join(
-            [f"{aresta.get_inicio().get_peso()} / {aresta.get_fim().get_peso()}" for aresta in
-             caminho])
-        return caminho_formatado
+        return self.matrizIncidencia.fleury_naive()
 
     def fleury_tarjan(self):
         self.verificar_grau_vertices()
