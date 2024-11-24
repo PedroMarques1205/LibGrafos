@@ -9,15 +9,15 @@
       <node id="2" label="2" />
       <node id="3" label="3" />
       <node id="8" label="8" />
-      <node id="&lt;ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.Vertice.Vertice object at 0x000001463CAE6270&gt;" label="&lt;ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.Vertice.Vertice object at 0x000001463CAE6270&gt;" />
-      <node id="&lt;ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.Vertice.Vertice object at 0x000001463C27EC10&gt;" label="&lt;ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.Vertice.Vertice object at 0x000001463C27EC10&gt;" />
-      <node id="&lt;ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.Vertice.Vertice object at 0x000001463C27EFD0&gt;" label="&lt;ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.Vertice.Vertice object at 0x000001463C27EFD0&gt;" />
-      <node id="&lt;ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.Vertice.Vertice object at 0x000001463985B230&gt;" label="&lt;ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.Vertice.Vertice object at 0x000001463985B230&gt;" />
+      <node id="&lt;ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.Vertice.Vertice object at 0x00000186C3056270&gt;" label="&lt;ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.Vertice.Vertice object at 0x00000186C3056270&gt;" />
+      <node id="&lt;ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.Vertice.Vertice object at 0x00000186C27EEC10&gt;" label="&lt;ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.Vertice.Vertice object at 0x00000186C27EEC10&gt;" />
+      <node id="&lt;ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.Vertice.Vertice object at 0x00000186C27EEFD0&gt;" label="&lt;ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.Vertice.Vertice object at 0x00000186C27EEFD0&gt;" />
+      <node id="&lt;ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.Vertice.Vertice object at 0x00000186BFD2B230&gt;" label="&lt;ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.Vertice.Vertice object at 0x00000186BFD2B230&gt;" />
     </nodes>
     <edges>
-      <edge source="&lt;ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.Vertice.Vertice object at 0x000001463CAE6270&gt;" target="&lt;ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.Vertice.Vertice object at 0x000001463C27EC10&gt;" id="0" weight="1" />
-      <edge source="&lt;ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.Vertice.Vertice object at 0x000001463C27EC10&gt;" target="&lt;ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.Vertice.Vertice object at 0x000001463C27EFD0&gt;" id="1" weight="1" />
-      <edge source="&lt;ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.Vertice.Vertice object at 0x000001463C27EFD0&gt;" target="&lt;ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.Vertice.Vertice object at 0x000001463985B230&gt;" id="2" weight="1" />
+      <edge source="&lt;ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.Vertice.Vertice object at 0x00000186C3056270&gt;" target="&lt;ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.Vertice.Vertice object at 0x00000186C27EEC10&gt;" id="0" weight="1" />
+      <edge source="&lt;ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.Vertice.Vertice object at 0x00000186C27EEC10&gt;" target="&lt;ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.Vertice.Vertice object at 0x00000186C27EEFD0&gt;" id="1" weight="1" />
+      <edge source="&lt;ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.Vertice.Vertice object at 0x00000186C27EEFD0&gt;" target="&lt;ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.Vertice.Vertice object at 0x00000186BFD2B230&gt;" id="2" weight="1" />
     </edges>
   </graph>
 </gexf>

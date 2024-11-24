@@ -132,7 +132,7 @@ class Grafo:
         return len(self.arestas)
 
     def checar_se_grafo_vazio(self):
-        print('a')
+        return len(self.vertices) == 0
 
     def checar_se_grafo_completo(self):
         print('a')

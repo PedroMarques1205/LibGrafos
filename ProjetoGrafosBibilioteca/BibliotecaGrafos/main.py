@@ -24,14 +24,7 @@ if __name__ == "__main__":
     grafo.adicionarAresta(Aresta(vC, vD, rotulo='e3', peso=1))
 
 
-    print(grafo.checar_existencia_de_aresta('e1'))
-    print(grafo.checar_existencia_de_aresta('Y'))
-
-    print(grafo.checar_existencia_de_vertice('C'))
-    print(grafo.checar_existencia_de_vertice('Z'))
-
-    print(grafo.checar_quantidade_de_vertices())
-    print(grafo.checar_quantidade_de_arestas())
+    grafo.printar_matriz_adjacencia()
 
     grafo.criar_arquivo_grafo_graphml()
 
