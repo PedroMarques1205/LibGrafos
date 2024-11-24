@@ -31,3 +31,6 @@ class Vertice:
     def set_rotulo(self, rotulo):
         self.rotulo = rotulo
 
+    def set_ponderacao(self, ponderacao):
+        self.ponderacao_vertice = ponderacao
+

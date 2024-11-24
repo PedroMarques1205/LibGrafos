@@ -79,10 +79,20 @@ class Grafo:
         print('IMPLEMENTAR DEPOIS')
 
     def ponderar_vertice(self, rotulo_vertice: str, ponderacao_vertice):
-        print('a')
+        for v in self.vertices:
+            if v.get_rotulo() == rotulo_vertice:
+                v.set_ponderacao(ponderacao_vertice)
+                self.listaAdjacencia.set_ponderacao(rotulo_vertice, ponderacao_vertice)
+                self.matrizAdjacencia.set_ponderacao(rotulo_vertice, ponderacao_vertice)
+                self.matrizIncidencia.set_ponderacao(rotulo_vertice, ponderacao_vertice)
 
-    def rotular_vertice(self):
-        print("a")
+    def rotular_vertice(self, rotulo_atual_vertice: str, rotulo_novo_vertice: str):
+        for v in self.vertices:
+            if v.get_rotulo() == rotulo_atual_vertice:
+                v.set_rotulo(rotulo_novo_vertice)
+                self.listaAdjacencia.set_rotulo(rotulo_atual_vertice, rotulo_novo_vertice)
+                self.matrizAdjacencia.set_rotulo(rotulo_atual_vertice, rotulo_novo_vertice)
+                self.matrizIncidencia.set_rotulo(rotulo_atual_vertice, rotulo_novo_vertice)
 
     def ponderar_aresta(self):
         print('a')

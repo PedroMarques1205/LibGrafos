@@ -5,13 +5,16 @@
   </meta>
   <graph defaultedgetype="directed" mode="static" name="">
     <nodes>
-      <node id="C" label="C" />
-      <node id="B" label="B" />
       <node id="A" label="A" />
+      <node id="B" label="B" />
+      <node id="C" label="C" />
+      <node id="&lt;ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.Vertice.Vertice object at 0x0000024C40786270&gt;" label="&lt;ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.Vertice.Vertice object at 0x0000024C40786270&gt;" />
+      <node id="&lt;ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.Vertice.Vertice object at 0x0000024C3FF320D0&gt;" label="&lt;ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.Vertice.Vertice object at 0x0000024C3FF320D0&gt;" />
+      <node id="&lt;ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.Vertice.Vertice object at 0x0000024C3FF32350&gt;" label="&lt;ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.Vertice.Vertice object at 0x0000024C3FF32350&gt;" />
     </nodes>
     <edges>
-      <edge source="B" target="C" id="0" weight="1" />
-      <edge source="A" target="B" id="1" weight="1" />
+      <edge source="&lt;ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.Vertice.Vertice object at 0x0000024C40786270&gt;" target="&lt;ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.Vertice.Vertice object at 0x0000024C3FF320D0&gt;" id="0" weight="1" />
+      <edge source="&lt;ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.Vertice.Vertice object at 0x0000024C3FF320D0&gt;" target="&lt;ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.Vertice.Vertice object at 0x0000024C3FF32350&gt;" id="1" weight="1" />
     </edges>
   </graph>
 </gexf>
