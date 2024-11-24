@@ -230,5 +230,5 @@ class GrafoMatrizAdjascencia:
 
     def set_rotulacao_aresta(self, rotulo, novoRotulo):
         for i, aresta in enumerate(self.arestas):
-            if (aresta.get_rotulo() == rotulo):
+            if aresta.get_rotulo() == rotulo:
                 aresta.set_rotulo(novoRotulo)

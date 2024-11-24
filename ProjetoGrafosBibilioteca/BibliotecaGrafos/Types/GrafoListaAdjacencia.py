@@ -1,5 +1,4 @@
 from ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.Aresta import Aresta
-from ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.Grafo import Grafo
 from ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.Vertice import Vertice
 
 

@@ -91,9 +91,9 @@ class Grafo:
         for v in self.vertices:
             if v.get_rotulo() == rotulo_atual_vertice:
                 v.set_rotulo(rotulo_novo_vertice)
-                self.listaAdjacencia.set_rotulacao_vertice(rotulo_atual_vertice, rotulo_novo_vertice)
-                self.matrizAdjacencia.set_rotulacao_vertice(rotulo_atual_vertice, rotulo_novo_vertice)
-                self.matrizIncidencia.set_rotulacao_vertice(rotulo_atual_vertice, rotulo_novo_vertice)
+                self.listaAdjacencia.set_rotulaco_vertice(rotulo_atual_vertice, rotulo_novo_vertice)
+                self.matrizAdjacencia.set_rotulaco_vertice(rotulo_atual_vertice, rotulo_novo_vertice)
+                self.matrizIncidencia.set_rotulaco_vertice(rotulo_atual_vertice, rotulo_novo_vertice)
                 break
 
     def ponderar_aresta(self, rotulo_aresta: str, peso_aresta):
