@@ -38,7 +38,7 @@ class Grafo:
         self.matrizAdjacencia.adicionar_vertice(vertice)
 
     def removerVertice(self):
-        print('a')
+        print('IMPLEMENTAR DEPOIS')
 
     def adicionarAresta(self, aresta: Aresta):
         A1 = aresta.get_inicio()
@@ -70,10 +70,15 @@ class Grafo:
         if not isFound:
             raise ValueError("Tentou remover uma aresta que não existe.")
 
-    def criar_grafo_com_x_vertices(self):
-        print('a')
+    def criar_grafo_com_x_vertices(self, num_vertices: int):
+        for i in range(num_vertices):
+            newVertice = Vertice("V"+i, "V"+i)
+            self.adicionarVertice(newVertice)
+            
+    def criar_grafo_com_x_arestas(self):
+        print('IMPLEMENTAR DEPOIS')
 
-    def ponderar_vertice(self):
+    def ponderar_vertice(self, rotulo_vertice: str, ponderacao_vertice):
         print('a')
 
     def rotular_vertice(self):
