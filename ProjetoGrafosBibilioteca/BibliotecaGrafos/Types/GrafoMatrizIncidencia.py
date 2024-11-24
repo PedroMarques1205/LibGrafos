@@ -454,11 +454,11 @@ class GrafoMatrizIncidencia:
                 vertice.set_rotulo(novoRotulo)
 
     def set_ponderacao_aresta(self, rotulo, ponderacao):
-        for i, aresta in enumerate(self.arestas):
+        for aresta in self.arestas:
             if (aresta.get_rotulo() == rotulo):
                 aresta.set_ponderacao(ponderacao)
 
     def set_rotulacao_aresta(self, rotulo, novoRotulo):
-        for i, aresta in enumerate(self.arestas):
+        for aresta in self.arestas:
             if (aresta.get_rotulo() == rotulo):
                 aresta.set_rotulo(novoRotulo)
