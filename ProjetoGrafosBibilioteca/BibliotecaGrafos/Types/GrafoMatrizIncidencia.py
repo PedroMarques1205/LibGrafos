@@ -95,19 +95,25 @@ class GrafoMatrizIncidencia:
                 return True
         return False
 
-    def verificar_adjacencia_arestas(self, aresta1, aresta2):
-        # Verifica se duas arestas são adjacentes
-        # Encontra os vértices associados a cada aresta
+    def verificar_adjacencia_arestas(self, rotulo_aresta1, rotulo_aresta2):
+        # Procura as arestas pelos rótulos
+        aresta1 = next((aresta for aresta in self.arestas if aresta.get_rotulo() == rotulo_aresta1), None)
+        aresta2 = next((aresta for aresta in self.arestas if aresta.get_rotulo() == rotulo_aresta2), None)
+
+        # Se alguma das arestas não for encontrada, retorna False
+        if not aresta1 or not aresta2:
+            return False
+
+        # Obtém os vértices de início e fim de cada aresta
         inicio1, fim1 = aresta1.get_inicio(), aresta1.get_fim()
         inicio2, fim2 = aresta2.get_inicio(), aresta2.get_fim()
 
         # Para grafos direcionados, verifica se existe algum vértice compartilhado
         if self.isDirecionado:
-            # Checa se algum vértice das arestas são iguais
             if inicio1 == inicio2 or inicio1 == fim2 or fim1 == inicio2 or fim1 == fim2:
                 return True
         else:
-            # Para grafos não direcionados, basta checar se a aresta compartilha vértices
+            # Para grafos não direcionados, verifica se compartilham vértices
             if inicio1 == inicio2 or inicio1 == fim2 or fim1 == inicio2 or fim1 == fim2:
                 return True
 
