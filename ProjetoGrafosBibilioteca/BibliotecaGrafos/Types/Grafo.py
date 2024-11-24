@@ -113,8 +113,8 @@ class Grafo:
                 self.matrizAdjacencia.set_rotulacao_aresta(rotulo_atual_aresta, rotulo_novo_aresta)
                 self.matrizIncidencia.set_rotulacao_aresta(rotulo_atual_aresta, rotulo_novo_aresta)
 
-    def checar_adjacencia_entre_vertices(self):
-        print('a')
+    def checar_adjacencia_entre_vertices(self, rotulo_vertice_um: str, rotulo_vertice_dois: str):
+        return self.matrizAdjacencia.checar_adjacencia_vertices(rotulo_vertice_um, rotulo_vertice_dois)
 
     def checar_adjacencia_entre_arestas(self):
         print('a')
@@ -164,11 +164,9 @@ class Grafo:
     def para_networkx(self):
         grafo = nx.DiGraph() if self.isDirecionado else nx.Graph()
 
-        # Adicionar os vértices ao grafo
         for vertice in self.vertices:
             grafo.add_node(vertice.peso_vertice)
 
-        # Iterar pelas arestas e adicionar as conexões
         for aresta in self.arestas:
             grafo.add_edge(aresta.get_inicio(), aresta.get_fim(), weight=aresta.get_peso())
 

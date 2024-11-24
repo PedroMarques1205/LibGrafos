@@ -18,7 +18,7 @@ if __name__ == "__main__":
     grafo.adicionarVertice(vC)
 
     grafo.adicionarAresta(Aresta(vA, vB, rotulo='e1', peso=1))
-    grafo.adicionarAresta(Aresta(vB, vC, rotulo='e1', peso=1))
+    grafo.adicionarAresta(Aresta(vB, vC, rotulo='e2', peso=1))
 
     grafo.criar_arquivo_grafo_graphml()
 

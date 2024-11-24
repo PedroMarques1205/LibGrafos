@@ -110,11 +110,11 @@ class GrafoMatrizAdjascencia:
         print("Matriz de Adjacência:")
         print("    ", end="")
         for vertice in self.vertices:
-            print(f"{vertice.peso_vertice:>4}", end="")
+            print(f"{vertice.get_rotulo():>4}", end="")
         print()
 
         for i, vertice in enumerate(self.vertices):
-            print(f"{self.vertices[i].peso_vertice:>4}", end="")
+            print(f"{self.vertices[i].get_rotulo():>4}", end="")
 
             for valor in self.matrizAdjacencia[i]:
                 print(f"{valor:>4}", end="")
