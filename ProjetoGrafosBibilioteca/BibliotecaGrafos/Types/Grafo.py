@@ -40,6 +40,11 @@ class Grafo:
         self.matrizIncidencia.exibir_matriz()
 
     def adicionarVertice(self, vertice: Vertice):
+
+        for v in self.vertices:
+            if v.get_rotulo() == vertice.get_rotulo():  # Comparação do rótulo
+                raise ValueError(f"Erro: O vértice com o rótulo {vertice.get_rotulo()} já existe.")
+
         self.vertices.append(vertice)
         self.listaAdjacencia.adicionar_vertice(vertice)
         self.matrizIncidencia.adicionar_vertice(vertice)
