@@ -19,36 +19,22 @@ class GrafoMatrizAdjascencia:
         self.matrizAdjacencia.append([0] * len(self.vertices))
 
     def adicionar_arestas(self, aresta: Aresta):
-        rotuloVertice1 = aresta.get_inicio()
-        rotuloVertice2 = aresta.get_fim()
+        V1 = aresta.get_inicio()
+        V2 = aresta.get_fim()
         peso = aresta.get_peso()
 
-        indice1 = next((i for i, vertice in enumerate(self.vertices) if vertice.valor_vertice == rotuloVertice1), None)
-        indice2 = next((i for i, vertice in enumerate(self.vertices) if vertice.valor_vertice == rotuloVertice2), None)
+        indice1 = next((i for i, vertice in enumerate(self.vertices) if vertice.valor_vertice == V1.get_valor_vertice()), None)
+        indice2 = next((i for i, vertice in enumerate(self.vertices) if vertice.valor_vertice == V2.get_valor_vertice()), None)
 
         if indice1 is None or indice2 is None:
-            raise ValueError("Vértice não encontrado.")
+            raise ValueError("Vértice não encontrado. (MA)")
 
         self.matrizAdjacencia[indice1][indice2] = peso
-        self.arestas[(rotuloVertice1, rotuloVertice2)] = peso
+        self.arestas[(V1, V2)] = peso
 
         if not self.isDirecionado:
             self.matrizAdjacencia[indice2][indice1] = peso
-            self.arestas[(rotuloVertice2, rotuloVertice1)] = peso
-
-    def remover_arestas(self, rotuloVertice1: str, rotuloVertice2: str):
-        indice1 = next((i for i, vertice in enumerate(self.vertices) if vertice.rotulo == rotuloVertice1), None)
-        indice2 = next((i for i, vertice in enumerate(self.vertices) if vertice.rotulo == rotuloVertice2), None)
-
-        if indice1 is None or indice2 is None:
-            raise ValueError("Vértice não encontrado.")
-
-        self.matrizAdjacencia[indice1][indice2] = 0
-        del self.arestas[(rotuloVertice1, rotuloVertice2)]
-
-        if not self.isDirecionado:
-            self.matrizAdjacencia[indice2][indice1] = 0
-            del self.arestas[(rotuloVertice2, rotuloVertice1)]
+            self.arestas[(V2, V1)] = peso
 
     def rotular_vertice(self, indice: int, novo_rotulo: str):
         if indice < 0 or indice >= len(self.vertices):

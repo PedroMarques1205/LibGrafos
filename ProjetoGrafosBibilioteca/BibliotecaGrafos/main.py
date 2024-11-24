@@ -1,27 +1,28 @@
+from ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.Aresta import Aresta
+from ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.Grafo import Grafo
 from ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.GrafoMatrizIncidencia import GrafoMatrizIncidencia
 import time
 import sys
 
+from ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.Vertice import Vertice
+
 if __name__ == "__main__":
-    sys.setrecursionlimit(1000000)
-    # Criação do grafo euleriano com 50 vértices
-    grafo = GrafoMatrizIncidencia(True).criar_grafo_euleriano(100)
+    grafo = Grafo("coisa", True)
 
-    # Medindo o tempo de execução do método Fleury com Tarjan
-    start_time = time.time()
-    resultado_tarjan = grafo.fleury_tarjan()
-    tempo_tarjan = time.time() - start_time
+    vA = Vertice(valor_vertice='A', rotulo='A')
+    vB = Vertice(valor_vertice='B', rotulo='B')
+    vC = Vertice(valor_vertice='C', rotulo='C')
 
-    # Medindo o tempo de execução do método Fleury com abordagem Naive
-    start_time = time.time()
-    resultado_naive = grafo.fleury_naive()
-    tempo_naive = time.time() - start_time
+    grafo.adicionarVertice(vA)
+    grafo.adicionarVertice(vB)
+    grafo.adicionarVertice(vC)
 
-    # Imprimindo os resultados e comparando os tempos
-    # print(f"Resultado do Fleury com Tarjan: {resultado_tarjan}")
-    print(f"Tempo de execução do Fleury com Tarjan: {tempo_tarjan:.6f} segundos")
+    grafo.adicionarAresta(Aresta(vA, vB, rotulo='e1', peso=1))
+    grafo.adicionarAresta(Aresta(vB, vC, rotulo='e1', peso=1))
 
-    # print(f"Resultado do Fleury com Naive: {resultado_naive}")
-    print(f"Tempo de execução do Fleury com Naive: {tempo_naive:.6f} segundos")
+    grafo.criar_arquivo_grafo_graphml()
 
+    grafo.printar_matriz_adjacencia()
+    grafo.printar_matriz_indicencia()
+    grafo.printar_lista_adjacencia()
 

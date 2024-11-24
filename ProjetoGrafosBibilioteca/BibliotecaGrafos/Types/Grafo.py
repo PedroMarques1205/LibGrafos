@@ -10,16 +10,25 @@ from ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.Vertice import Vertice
 
 
 class Grafo:
-    def __inir__(self, id = "grafo"):
-        self.vertices: List[Vertice] = []
-        self.arestas: List[Aresta] = []
-        self.isDirecionado = False
+    def __init__(self, id: str, isDirecionado: bool):
+        self.vertices = []
+        self.arestas = []
+        self.isDirecionado = isDirecionado
         self.listaAdjacencia = GrafoListaAdjacencia(self.isDirecionado)
         self.matrizIncidencia = GrafoMatrizIncidencia(self.isDirecionado)
         self.matrizAdjacencia = GrafoMatrizAdjascencia(self.isDirecionado)
         self.id = id
 
     # PARTE 1
+
+    def printar_matriz_adjacencia(self):
+        self.matrizAdjacencia.printar_matriz_adjacencia()
+
+    def printar_lista_adjacencia(self):
+        self.listaAdjacencia.mostrar_lista_adjacencia()
+
+    def printar_matriz_indicencia(self):
+        self.matrizIncidencia.exibir_matriz()
 
     def adicionarVertice(self, vertice: Vertice):
         self.vertices.append(vertice)
@@ -32,18 +41,18 @@ class Grafo:
         print('a')
 
     def adicionarAresta(self, aresta: Aresta):
-        rotuloVertice1 = aresta.get_inicio()
-        rotuloVertice2 = aresta.get_fim()
+        A1 = aresta.get_inicio()
+        A2 = aresta.get_fim()
 
-        indice1 = next((i for i, vertice in enumerate(self.vertices) if vertice.valor_vertice == rotuloVertice1), None)
-        indice2 = next((i for i, vertice in enumerate(self.vertices) if vertice.valor_vertice == rotuloVertice2), None)
+        indice1 = next((i for i, vertice in enumerate(self.vertices) if vertice.valor_vertice == A1.get_valor_vertice()), None)
+        indice2 = next((i for i, vertice in enumerate(self.vertices) if vertice.valor_vertice == A2.get_valor_vertice()), None)
 
         if (indice1 == None or indice2 == None):
-            raise ValueError("Tentou adiciona ruma aresta com vértices que não existem no grafo.")
+            raise ValueError("FOI AQUI QUE ESSE ERRO ESTOUROU.")
 
         self.arestas.append(aresta)
         self.listaAdjacencia.adicionar_aresta(aresta)
-        self.matrizAdjacencia.criar_arestas(aresta)
+        self.matrizAdjacencia.adicionar_arestas(aresta)
         self.matrizIncidencia.adicionar_aresta(aresta)
 
     def removerAresta(self, rotulo_inicio: str, rotulo_fim: str):
@@ -53,7 +62,7 @@ class Grafo:
             if aresta.get_inicio().rotulo == rotulo_inicio and aresta.get_fim().rotulo == rotulo_fim:
                 self.arestas.remove(aresta)
                 self.listaAdjacencia.remover_aresta(aresta)
-                self.matrizAdjacencia.r
+                self.matrizAdjacencia.remover_aresta(aresta)
                 self.matrizIncidencia.remover_aresta(aresta)
                 isFound = True
                 break
@@ -127,10 +136,13 @@ class Grafo:
     def para_networkx(self):
         grafo = nx.DiGraph() if self.isDirecionado else nx.Graph()
 
+        # Adicionar os vértices ao grafo
         for vertice in self.vertices:
             grafo.add_node(vertice.valor_vertice)
 
-        for (vertice1, vertice2), peso in self.arestas.items():
-            grafo.add_edge(vertice1, vertice2, weight=peso)
+        # Iterar pelas arestas e adicionar as conexões
+        for aresta in self.arestas:
+            grafo.add_edge(aresta.get_inicio(), aresta.get_fim(), weight=aresta.get_peso())
 
         return grafo
+

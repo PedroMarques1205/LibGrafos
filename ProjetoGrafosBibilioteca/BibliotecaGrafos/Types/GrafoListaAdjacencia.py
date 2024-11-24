@@ -15,8 +15,8 @@ class GrafoListaAdjacencia:
         self.vertices.append(vertice)
 
     def adicionar_aresta(self, aresta: Aresta):
-        vertice_inicio = self.get_vertice(aresta.get_inicio())
-        vertice_fim = self.get_vertice(aresta.get_fim())
+        vertice_inicio = self.get_vertice(aresta.get_inicio().get_valor_vertice())
+        vertice_fim = self.get_vertice(aresta.get_fim().get_valor_vertice())
 
         if vertice_inicio is not None and vertice_fim is not None:
             self.arestas.append(aresta)
@@ -24,25 +24,14 @@ class GrafoListaAdjacencia:
             vertice_inicio.adicionar_aresta_de_saida(aresta)
             vertice_fim.adicionar_aresta_de_entrada(aresta)
         else:
-            raise ValueError("Vértices de início ou fim não encontrados no grafo.")
-    # Função para buscar um vértice no grafo com base no valor do vértice.
-    # Parâmetros:
-    # - valor_vertice: o valor do vértice a ser procurado.
-    # Retorno:
-    # - O vértice correspondente, caso exista, ou None se não for encontrado.
+            raise ValueError("Vértice não encontrado. (LA)")
+
     def get_vertice(self, valor_vertice):
-        # Itera pela lista de vértices para encontrar aquele cujo valor corresponde ao valor fornecido.
         for vertice in self.vertices:
             if vertice.get_valor_vertice() == valor_vertice:
                 return vertice
-        # Retorna None se o vértice não existir.
         return None
 
-    # Função para buscar um vértice no grafo com base no rótulo do vértice.
-    # Parâmetros:
-    # - rotulo: o rótulo do vértice a ser procurado.
-    # Retorno:
-    # - O vértice correspondente, caso exista, ou None se não for encontrado.
     def get_vertice_by_rotulo(self, rotulo):
         # Itera pela lista de vértices para encontrar aquele cujo rótulo corresponde ao rótulo fornecido.
         for vertice in self.vertices:

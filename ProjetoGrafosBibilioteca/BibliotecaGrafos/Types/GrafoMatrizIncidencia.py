@@ -22,43 +22,44 @@ class GrafoMatrizIncidencia:
         fim = aresta.get_fim()
 
         if self.isDirecionado:
-            # Grafo direcionado: A aresta vai de 'inicio' para 'fim'
-            nova_linha[self.vertices.index(inicio)] = -1  # Saída do vértice inicial
-            nova_linha[self.vertices.index(fim)] = 1  # Entrada no vértice final
-            # Adiciona a aresta nas listas de entrada e saída dos vértices
+            nova_linha[self.vertices.index(inicio)] = -1
+            nova_linha[self.vertices.index(fim)] = 1
             inicio.adicionar_aresta_de_saida(aresta)
             fim.adicionar_aresta_de_entrada(aresta)
         else:
-            # Grafo não direcionado: A aresta conecta 'inicio' <-> 'fim'
-            nova_linha[self.vertices.index(inicio)] = 1  # Saída do vértice inicial
-            nova_linha[self.vertices.index(fim)] = 1  # Entrada no vértice final
-            # Adiciona a aresta nas listas de entrada e saída dos vértices
+            nova_linha[self.vertices.index(inicio)] = 1
+            nova_linha[self.vertices.index(fim)] = 1
             inicio.adicionar_aresta_de_saida(aresta)
             inicio.adicionar_aresta_de_entrada(aresta)
             fim.adicionar_aresta_de_saida(aresta)
-            fim.adicionar_aresta_de_entrada(aresta)# Como é não direcionado, ambos os vértices têm a aresta de saída
+            fim.adicionar_aresta_de_entrada(aresta)
 
         self.matriz_incidencia.append(nova_linha)
 
     def exibir_matriz(self):
         print("Matriz de Incidência:")
 
-        # Exibe o cabeçalho com os rótulos das arestas
+        # Obter os rótulos das arestas
         arestas_rotulos = [a.get_rotulo() for a in self.arestas]
-        print("       ", "  ".join(arestas_rotulos))  # Espaçamento inicial para alinhar com os rótulos dos vértices
 
-        # Exibe cada linha da matriz de incidência com o rótulo do vértice
+        # Definir o espaçamento mínimo para os rótulos das arestas
+        espacamento = max(len(r) for r in arestas_rotulos) + 2
+        header = " " * 7 + " ".join(f"{rotulo:>{espacamento}}" for rotulo in arestas_rotulos)
+        print(header)
+
+        # Exibir as linhas da matriz alinhadas
         for i, vertice in enumerate(self.vertices):
-            vertice_rotulo = vertice.get_rotulo() if vertice.get_rotulo() is not None else str(
-                vertice.get_valor_vertice())
+            vertice_rotulo = (
+                vertice.get_rotulo()
+                if vertice.get_rotulo() is not None
+                else str(vertice.get_valor_vertice())
+            )
             linha = [self.matriz_incidencia[j][i] for j in range(len(self.matriz_incidencia))]
-            print(f"{vertice_rotulo: <7} ", "  ".join(map(str, linha)))
+            linha_formatada = " ".join(f"{valor:>{espacamento}}" for valor in linha)
+            print(f"{vertice_rotulo:<7} {linha_formatada}")
 
     def remover_aresta(self, aresta):
-        """
-        Remove uma aresta do grafo e das listas de arestas de entrada e saída dos vértices.
-        """
-        # Verifica se a aresta existe na lista de arestas
+
         if aresta not in self.arestas:
             print("A aresta não existe.")
             return
