@@ -57,9 +57,8 @@ Implementar a funcionalidade de **ler** e **salvar** grafos em formatos compatí
 ### Relatório:
 
 Entre 12 e 15 páginas;
-Demostrar os resultados obtidos e telas produzidas;
-Em formato de artigo SBC latex: https://www.overleaf.com/latex/templates/sbc-conferences-template/blbxwjwzdngr
-Apresentação em vídeo (demonstração) e presencial (arguição):
+Demostrar os resultados obtidos e telas produzidas em formato de artigo SBC latex;
+Apresentação em vídeo (demonstração) e presencial (arguição).
 
 ### Demostrar os resultados;
 Todos os membros do grupo devem participar;
