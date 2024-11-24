@@ -12,62 +12,31 @@ if __name__ == "__main__":
     vA = Vertice(peso_vertice='1', rotulo='A')
     vB = Vertice(peso_vertice='2', rotulo='B')
     vC = Vertice(peso_vertice='3', rotulo='C')
+    vD = Vertice(peso_vertice='8', rotulo='D')
 
     grafo.adicionarVertice(vA)
     grafo.adicionarVertice(vB)
     grafo.adicionarVertice(vC)
+    grafo.adicionarVertice(vD)
 
     grafo.adicionarAresta(Aresta(vA, vB, rotulo='e1', peso=1))
     grafo.adicionarAresta(Aresta(vB, vC, rotulo='e2', peso=1))
+    grafo.adicionarAresta(Aresta(vC, vD, rotulo='e3', peso=1))
+
+
+    print(grafo.checar_existencia_de_aresta('e1'))
+    print(grafo.checar_existencia_de_aresta('Y'))
+
+    print(grafo.checar_existencia_de_vertice('C'))
+    print(grafo.checar_existencia_de_vertice('Z'))
+
+    print(grafo.checar_quantidade_de_vertices())
+    print(grafo.checar_quantidade_de_arestas())
 
     grafo.criar_arquivo_grafo_graphml()
 
-    print(" ")
-    print("== ANTES DA EDICAO ==")
-    print(" ")
 
-    grafo.printar_matriz_adjacencia()
-    grafo.printar_matriz_indicencia()
-    grafo.printar_lista_adjacencia()
 
-    grafo.rotular_vertice('A', 'y')
 
-    print(" ")
-    print("== ANTES DA APÓS EDIT 1 ==")
-    print(" ")
-
-    grafo.printar_matriz_adjacencia()
-    grafo.printar_matriz_indicencia()
-    grafo.printar_lista_adjacencia()
-
-    grafo.ponderar_vertice('Y', 8)
-
-    print(" ")
-    print("== ANTES DA APÓS EDIT 2 ==")
-    print(" ")
-
-    grafo.printar_matriz_adjacencia()
-    grafo.printar_matriz_indicencia()
-    grafo.printar_lista_adjacencia()
-
-    grafo.rotular_aresta('e1', 'y1')
-
-    print(" ")
-    print("== ANTES DA APÓS EDIT 3 ==")
-    print(" ")
-
-    grafo.printar_matriz_adjacencia()
-    grafo.printar_matriz_indicencia()
-    grafo.printar_lista_adjacencia()
-
-    grafo.ponderar_aresta('y1', 8)
-
-    print(" ")
-    print("== ANTES DA APÓS EDIT 4 ==")
-    print(" ")
-
-    grafo.printar_matriz_adjacencia()
-    grafo.printar_matriz_indicencia()
-    grafo.printar_lista_adjacencia()
 
 

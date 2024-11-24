@@ -116,17 +116,20 @@ class Grafo:
     def checar_adjacencia_entre_vertices(self, rotulo_vertice_um: str, rotulo_vertice_dois: str):
         return self.matrizAdjacencia.checar_adjacencia_vertices(rotulo_vertice_um, rotulo_vertice_dois)
 
-    def checar_adjacencia_entre_arestas(self):
-        print('a')
+    def checar_adjacencia_entre_arestas(self, rotulo_vertice_um: str, rotulo_vertice_dois: str):
+        return self.matrizIncidencia.verificar_adjacencia_arestas(rotulo_vertice_um, rotulo_vertice_dois)
 
-    def checar_existencia_de_aresta(self):
-        print('a')
+    def checar_existencia_de_aresta(self, rotulo: str):
+        return any(a.get_rotulo() == rotulo for a in self.arestas)
+
+    def checar_existencia_de_vertice(self, rotulo: str):
+        return any(v.get_rotulo() == rotulo for v in self.vertices)
 
     def checar_quantidade_de_vertices(self):
-        print('a')
+        return len(self.vertices)
 
     def checar_quantidade_de_arestas(self):
-        print('a')
+        return len(self.arestas)
 
     def checar_se_grafo_vazio(self):
         print('a')
