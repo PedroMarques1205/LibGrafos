@@ -1,17 +1,17 @@
 # CLASSE VÉRTICE#
 class Vertice:
-    def __init__(self, ponderacao_vertice, rotulo=None):
-        self.ponderacao_vertice = ponderacao_vertice
+    def __init__(self, peso_vertice, rotulo=None):
+        self.peso_vertice = peso_vertice
         self.grau = 0
         self.arestas_de_entrada = []
         self.arestas_de_saida = []
         self.rotulo = rotulo
 
     def get_ponderacao_vertice(self):
-        return self.ponderacao_vertice
+        return self.peso_vertice
 
     def set_valor_vertice(self, valor_vertice):
-        self.ponderacao_vertice = valor_vertice
+        self.peso_vertice = valor_vertice
 
     def get_arestas_de_entrada(self):
         return self.arestas_de_entrada
@@ -32,5 +32,5 @@ class Vertice:
         self.rotulo = rotulo
 
     def set_ponderacao(self, ponderacao):
-        self.ponderacao_vertice = ponderacao
+        self.peso_vertice = ponderacao
 

@@ -184,7 +184,7 @@ class GrafoMatrizIncidencia:
 
         # Adicionar vértices
         for i in range(1, x + 1):
-            vertice = Vertice(ponderacao_vertice=i, rotulo=f"V{i}")
+            vertice = Vertice(peso_vertice=i, rotulo=f"V{i}")
             grafo.adicionar_vertice(vertice)
 
         # Adicionar arestas com base em uma probabilidade
@@ -427,7 +427,7 @@ class GrafoMatrizIncidencia:
 
         # Adicionar vértices
         for i in range(1, x + 1):
-            vertice = Vertice(ponderacao_vertice=i, rotulo=f"V{i}")
+            vertice = Vertice(peso_vertice=i, rotulo=f"V{i}")
             grafo.adicionar_vertice(vertice)
 
         # Adicionar arestas para garantir que o grafo seja euleriano (grau par)
