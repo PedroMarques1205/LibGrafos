@@ -39,15 +39,12 @@ class GrafoMatrizIncidencia:
     def exibir_matriz(self):
         print("Matriz de Incidência:")
 
-        # Obter os rótulos das arestas
         arestas_rotulos = [a.get_rotulo() for a in self.arestas]
 
-        # Definir o espaçamento mínimo para os rótulos das arestas
         espacamento = max(len(r) for r in arestas_rotulos) + 2
         header = " " * 7 + " ".join(f"{rotulo:>{espacamento}}" for rotulo in arestas_rotulos)
         print(header)
 
-        # Exibir as linhas da matriz alinhadas
         for i, vertice in enumerate(self.vertices):
             vertice_rotulo = (
                 vertice.get_rotulo()
@@ -445,3 +442,14 @@ class GrafoMatrizIncidencia:
                 grafo.adicionar_aresta(aresta)
 
         return grafo
+
+    def set_ponderacao(self, rotulo, ponderacao):
+        for i, vertice in enumerate(self.vertices):
+            if(vertice.get_rotulo() == rotulo):
+                vertice.set_ponderacao(ponderacao)
+
+
+    def set_rotulaco(self, rotulo, novoRotulo):
+        for i, vertice in enumerate(self.vertices):
+            if(vertice.get_rotulo() == rotulo):
+                vertice.set_rotulo(novoRotulo)
