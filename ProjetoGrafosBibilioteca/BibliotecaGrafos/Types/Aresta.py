@@ -1,4 +1,3 @@
-# CLASSE ARESTA#
 class Aresta:
     def __init__(self, inicio, fim, rotulo, peso):
         self.inicio = inicio

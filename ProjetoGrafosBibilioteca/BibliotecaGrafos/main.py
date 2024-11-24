@@ -9,7 +9,6 @@ from ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.Vertice import Vertice
 if __name__ == "__main__":
     grafo_maior = Grafo("grafo_maior", False)  # Grafo não direcionado
 
-    # Criando os vértices
     vA = Vertice(peso_vertice='1', rotulo='A')
     vB = Vertice(peso_vertice='2', rotulo='B')
     vC = Vertice(peso_vertice='3', rotulo='C')
@@ -17,7 +16,6 @@ if __name__ == "__main__":
     vE = Vertice(peso_vertice='5', rotulo='E')
     vF = Vertice(peso_vertice='6', rotulo='F')
 
-    # Adicionando os vértices ao grafo
     grafo_maior.adicionarVertice(vA)
     grafo_maior.adicionarVertice(vB)
     grafo_maior.adicionarVertice(vC)
@@ -25,7 +23,6 @@ if __name__ == "__main__":
     grafo_maior.adicionarVertice(vE)
     grafo_maior.adicionarVertice(vF)
 
-    # Adicionando as arestas ao grafo
     grafo_maior.adicionarAresta(Aresta(vA, vB, rotulo='e1', peso=1))
     grafo_maior.adicionarAresta(Aresta(vB, vC, rotulo='e2', peso=1))
     grafo_maior.adicionarAresta(Aresta(vC, vD, rotulo='e3', peso=1))
@@ -36,7 +33,43 @@ if __name__ == "__main__":
     grafo_maior.adicionarAresta(Aresta(vF, vD, rotulo='e7', peso=1))
     grafo_maior.adicionarAresta(Aresta(vD, vB, rotulo='e8', peso=1))
 
-    print(grafo_maior.fleury_tarjan())
+    print(" ")
+    print('== PASSOU 1 ==')
+    print(" ")
+
+    grafo_maior.printar_matriz_adjacencia()
+    grafo_maior.printar_matriz_indicencia()
+    grafo_maior.printar_lista_adjacencia()
+
+    grafo_maior.removerAresta(vA.get_rotulo(), vB.get_rotulo())
+
+    print(" ")
+    print('== PASSOU 2 - REMOVER ARESTA ==')
+    print(" ")
+
+    grafo_maior.printar_matriz_adjacencia()
+    grafo_maior.printar_matriz_indicencia()
+    grafo_maior.printar_lista_adjacencia()
+
+    grafo_maior.removerVertice(vD.get_rotulo())
+
+    print(" ")
+    print('== PASSOU 3 - REMOVER VERTICES ==')
+    print(" ")
+
+
+    print(grafo_maior.vertices)
+
+    grafo_maior.printar_matriz_adjacencia()
+    grafo_maior.printar_matriz_indicencia()
+    grafo_maior.printar_lista_adjacencia()
+
+
+
+
+
+
+
 
 
 

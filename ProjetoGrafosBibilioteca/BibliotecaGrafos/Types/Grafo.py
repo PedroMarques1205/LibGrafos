@@ -1,5 +1,3 @@
-from typing import List
-
 import networkx as nx
 
 from ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.Aresta import Aresta
@@ -19,26 +17,50 @@ class Grafo:
         self.matrizAdjacencia = GrafoMatrizAdjascencia(self.isDirecionado)
         self.id = id
 
-    # PARTE 1
+    # MÉTODOS DA PARTE 1
 
-    def printar_matriz_adjacencia(self):
+    def printar_matriz_adjacencia(self): # TESTADO OK
+        if self.checar_se_grafo_vazio():
+            print("O grafo está vazio.")
+            return
+
         self.matrizAdjacencia.printar_matriz_adjacencia()
 
-    def printar_lista_adjacencia(self):
+    def printar_lista_adjacencia(self): # TESTADO OK
+        if self.checar_se_grafo_vazio():
+            print("O grafo está vazio.")
+            return
+
         self.listaAdjacencia.mostrar_lista_adjacencia()
 
-    def printar_matriz_indicencia(self):
+    def printar_matriz_indicencia(self): # TESTADO OK
+        if self.checar_se_grafo_vazio():
+            print("O grafo está vazio.")
+            return
+
         self.matrizIncidencia.exibir_matriz()
 
-    def adicionarVertice(self, vertice: Vertice):
+    def adicionarVertice(self, vertice: Vertice): # TESTADO OK
         self.vertices.append(vertice)
-
         self.listaAdjacencia.adicionar_vertice(vertice)
         self.matrizIncidencia.adicionar_vertice(vertice)
         self.matrizAdjacencia.adicionar_vertice(vertice)
 
-    def removerVertice(self):
-        print('IMPLEMENTAR DEPOIS')
+    def removerVertice(self, rotulo_vertice: str):
+        vertice = self.get_vertice(rotulo_vertice)
+
+        if vertice == None:
+            raise ValueError('Você tentou remover um vértice que não existe.')
+
+        for aresta in vertice.get_arestas_de_saida():
+            self.removerAresta(aresta.get_inicio().get_rotulo(), aresta.get_fim().get_rotulo())
+        for aresta in vertice.get_arestas_de_entrada():
+            self.removerAresta(aresta.get_inicio().get_rotulo(), aresta.get_fim().get_rotulo())
+
+        self.listaAdjacencia.remover_vertice(vertice)
+        self.matrizAdjacencia.remover_vertice(vertice)
+        self.matrizIncidencia.remover_vertice(vertice)
+
 
     def adicionarAresta(self, aresta: Aresta):
         A1 = aresta.get_inicio()
@@ -48,11 +70,11 @@ class Grafo:
         indice2 = next((i for i, vertice in enumerate(self.vertices) if vertice.peso_vertice == A2.get_peso()), None)
 
         if (indice1 == None or indice2 == None):
-            raise ValueError("FOI AQUI QUE ESSE ERRO ESTOUROU.")
+            raise ValueError("Você tentou adicionar uma relação entre vértices que não existem.")
 
         self.arestas.append(aresta)
         self.listaAdjacencia.adicionar_aresta(aresta)
-        self.matrizAdjacencia.adicionar_arestas(aresta)
+        self.matrizAdjacencia.adicionar_aresta(aresta)
         self.matrizIncidencia.adicionar_aresta(aresta)
 
     def removerAresta(self, rotulo_inicio: str, rotulo_fim: str):
@@ -60,10 +82,17 @@ class Grafo:
 
         for aresta in self.arestas:
             if aresta.get_inicio().rotulo == rotulo_inicio and aresta.get_fim().rotulo == rotulo_fim:
-                self.arestas.remove(aresta)
                 self.listaAdjacencia.remover_aresta(aresta)
                 self.matrizAdjacencia.remover_aresta(aresta)
                 self.matrizIncidencia.remover_aresta(aresta)
+                self.arestas.remove(aresta)
+
+                aresta.get_inicio().remover_aresta_de_saida(aresta)
+                aresta.get_fim().remover_aresta_de_entrada(aresta)
+
+                if not self.isDirecionado:
+                    aresta.get_inicio().remover_aresta_de_entrada(aresta)
+                    aresta.get_fim().remover_aresta_de_saida(aresta)
                 isFound = True
                 break
 
@@ -71,12 +100,17 @@ class Grafo:
             raise ValueError("Tentou remover uma aresta que não existe.")
 
     def criar_grafo_com_x_vertices(self, num_vertices: int):
+        vertices = []
         for i in range(num_vertices):
-            newVertice = Vertice("V"+i, "V"+i)
-            self.adicionarVertice(newVertice)
-            
-    def criar_grafo_com_x_arestas(self):
-        print('IMPLEMENTAR DEPOIS')
+            vertice = Vertice(peso_vertice=str(i), rotulo=f"V{i}")
+            vertices.append(vertice)
+            self.adicionarVertice(vertice)
+
+        for i in range(num_vertices - 1):
+            self.adicionarAresta(Aresta(vertices[i], vertices[i + 1], rotulo=f"e{i}", peso=1))
+
+        self.adicionarAresta(
+            Aresta(vertices[num_vertices - 1], vertices[0], rotulo=f"e{num_vertices - 1}", peso=1))
 
     def ponderar_vertice(self, rotulo_vertice: str, ponderacao_vertice):
         for v in self.vertices:
@@ -243,10 +277,9 @@ class Grafo:
     def checar_articulacao(self):
         print('IMPLEMENTAR DEPOIS')
 
-    # PARTE 2
+    # MÉTODOS DA PARTE 2
 
     def checar_pontes_naive(self):
-
         pontes = []
 
         for aresta in self.arestas[:]:
@@ -305,9 +338,6 @@ class Grafo:
         return pontes
 
     def fleury_naive(self):
-        """
-        Implementação do Método de Fleury utilizando encontrar_pontes_naive.
-        """
         self.verificar_grau_vertices()
         if len([v for v in self.vertices if v.grau % 2 != 0]) > 2:
             raise Exception("O grafo não possui caminho euleriano.")
@@ -319,19 +349,14 @@ class Grafo:
         while arestas_restantes:
             pontes = self.checar_pontes_naive()
 
-            # Iterar sobre todos os vértices do grafo
-            for vertice in self.vertices:  # Supondo que 'self.vertices' seja a lista de vértices no grafo
-                # Pegar as arestas de saída e de entrada de cada vértice
+            for vertice in self.vertices:
                 for aresta in vertice.get_arestas_de_saida() + vertice.get_arestas_de_entrada():
-                    # Verifica se a aresta é uma ponte e se há mais de uma aresta restante
                     if aresta in pontes and len(arestas_restantes) > 1:
-                        continue  # Pula as pontes quando há mais de uma aresta restante
+                        continue
 
                     caminho.append(aresta)
-                    # Atualiza o vértice inicial com base na aresta
                     v_inicial = aresta.get_fim() if aresta.get_inicio() == v_inicial else aresta.get_inicio()
 
-                    # Remove a aresta da lista de arestas restantes
                     if aresta in arestas_restantes:
                         arestas_restantes.remove(aresta)
 
@@ -341,9 +366,6 @@ class Grafo:
         return caminho_formatado
 
     def fleury_tarjan(self):
-        """
-        Implementação do Método de Fleury utilizando encontrar_pontes_tarjan.
-        """
         self.verificar_grau_vertices()
         if len([v for v in self.vertices if v.grau % 2 != 0]) > 2:
             raise Exception("O grafo não possui caminho euleriano.")
@@ -355,19 +377,14 @@ class Grafo:
         while arestas_restantes:
             pontes = self.checar_pontes_tarjan()
 
-            # Iterar sobre todos os vértices do grafo
-            for vertice in self.vertices:  # Supondo que 'self.vertices' seja a lista de vértices no grafo
-                # Pegar as arestas de entrada e de saída de cada vértice
+            for vertice in self.vertices:
                 for aresta in vertice.get_arestas_de_saida() + vertice.get_arestas_de_entrada():
-                    # Verifica se a aresta é uma ponte e se há mais de uma aresta restante
                     if aresta in pontes and len(arestas_restantes) > 1:
-                        continue  # Pula as pontes quando há mais de uma aresta restante
+                        continue
 
                     caminho.append(aresta)
-                    # Atualiza o vértice inicial com base na aresta
                     v_inicial = aresta.get_fim() if aresta.get_inicio() == v_inicial else aresta.get_inicio()
 
-                    # Remove a aresta da lista de arestas restantes
                     if aresta in arestas_restantes:
                         arestas_restantes.remove(aresta)
 
@@ -382,7 +399,7 @@ class Grafo:
         for vertice in self.vertices:
             vertice.grau = len(vertice.get_arestas_de_saida()) + len(vertice.get_arestas_de_entrada())
 
-    # PARTE 3
+    # MÉTODOS DA PARTE 3 #
 
     def criar_arquivo_grafo_graphml(self):
         grafo_networkx = self.para_networkx()
@@ -400,3 +417,7 @@ class Grafo:
 
         return grafo
 
+    # MÉTODOS AUXILIARES
+
+    def get_vertice(self, rotulo: str):
+        return next((v for v in self.vertices if v.get_rotulo() == rotulo), None)

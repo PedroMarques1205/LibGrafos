@@ -1,4 +1,3 @@
-# CLASSE VÉRTICE#
 class Vertice:
     def __init__(self, peso_vertice, rotulo=None):
         self.peso_vertice = peso_vertice
@@ -33,4 +32,12 @@ class Vertice:
 
     def set_ponderacao(self, ponderacao):
         self.peso_vertice = ponderacao
+
+    def remover_aresta_de_saida(self, aresta):
+        if aresta in self.arestas_de_saida:
+            self.arestas_de_saida.remove(aresta)
+
+    def remover_aresta_de_entrada(self, aresta):
+        if aresta in self.arestas_de_entrada:
+            self.arestas_de_entrada.remove(aresta)
 
