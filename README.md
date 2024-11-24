@@ -1,4 +1,4 @@
-# 🤸‍♀️🌈✨💕 Trabalho de Grafos 💕✨🌈🤸‍♀️
+Trabalho de Grafos
 
 Este repositório contém o trabalho acadêmico de **Manipulação de Grafos**, para a disciplina de Grafos do curso Engenharia de Software, PUC MG.
 
