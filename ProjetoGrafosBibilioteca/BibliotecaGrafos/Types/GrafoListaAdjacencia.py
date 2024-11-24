@@ -1,6 +1,5 @@
-from operator import truediv
-
 from ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.Aresta import Aresta
+from ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.Grafo import Grafo
 from ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.Vertice import Vertice
 
 
@@ -357,4 +356,14 @@ class GrafoListaAdjacencia:
 
         print("Grafo criado com sucesso!")
         return grafo
+
+    def set_ponderacao(self, rotulo, ponderacao):
+        for i, vertice in enumerate(self.vertices):
+            if (vertice.get_rotulo() == rotulo):
+                vertice.set_ponderacao(ponderacao)
+
+    def set_rotulaco(self, rotulo, novoRotulo):
+        for i, vertice in enumerate(self.vertices):
+            if (vertice.get_rotulo() == rotulo):
+                vertice.set_rotulo(novoRotulo)
 
