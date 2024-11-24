@@ -5,6 +5,7 @@ import sys
 
 from ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.Vertice import Vertice
 
+
 def criar_grafo_grande(quantidade_vertices):
     grafo = Grafo("grafo_grande", False)
 
@@ -24,73 +25,21 @@ def criar_grafo_grande(quantidade_vertices):
 
 if __name__ == "__main__":
     sys.setrecursionlimit(100000000)
-    quantidade_vertices = 10000
+    quantidade_vertices = 5
 
-    vA = Vertice(peso_vertice='1', rotulo='A')
-    vB = Vertice(peso_vertice='2', rotulo='B')
-    vC = Vertice(peso_vertice='3', rotulo='C')
-    vD = Vertice(peso_vertice='4', rotulo='D')
-    vE = Vertice(peso_vertice='5', rotulo='E')
-    vF = Vertice(peso_vertice='6', rotulo='F')
+    print(f"Construindo um grafo com {quantidade_vertices} vértices...")
+    start_time = time.time()
+    grafo_grande = criar_grafo_grande(quantidade_vertices)
+    print(f"Grafo construído em {time.time() - start_time:.5f} segundos.")
 
-    grafo_maior.adicionarVertice(vA)
-    grafo_maior.adicionarVertice(vB)
-    grafo_maior.adicionarVertice(vC)
-    grafo_maior.adicionarVertice(vD)
-    grafo_maior.adicionarVertice(vE)
-    grafo_maior.adicionarVertice(vF)
+    print("Executando Fleury com Tarjan...")
+    start_time = time.time()
+    resultado_tarjan = grafo_grande.fleury_tarjan()
+    print(f"Algoritmo Fleury com Tarjan executado em {time.time() - start_time:.5f} segundos.")
 
-    grafo_maior.adicionarAresta(Aresta(vA, vB, rotulo='e1', peso=1))
-    grafo_maior.adicionarAresta(Aresta(vB, vC, rotulo='e2', peso=1))
-    grafo_maior.adicionarAresta(Aresta(vC, vD, rotulo='e3', peso=1))
-    grafo_maior.adicionarAresta(Aresta(vD, vA, rotulo='e4', peso=1))
+    print("Executando Fleury com Naive...")
+    start_time = time.time()
+    resultado_naive = grafo_grande.fleury_naive()
+    print(f"Algoritmo Fleury com Naive executado em {time.time() - start_time:.5f} segundos.")
 
-    grafo_maior.adicionarAresta(Aresta(vA, vE, rotulo='e5', peso=1))
-    grafo_maior.adicionarAresta(Aresta(vE, vF, rotulo='e6', peso=1))
-    grafo_maior.adicionarAresta(Aresta(vF, vD, rotulo='e7', peso=1))
-    grafo_maior.adicionarAresta(Aresta(vD, vB, rotulo='e8', peso=1))
-
-    print(" ")
-    print('== PASSOU 1 ==')
-    print(" ")
-
-    grafo_maior.printar_matriz_adjacencia()
-    grafo_maior.printar_matriz_indicencia()
-    grafo_maior.printar_lista_adjacencia()
-
-    grafo_maior.removerAresta(vA.get_rotulo(), vB.get_rotulo())
-
-    print(" ")
-    print('== PASSOU 2 - REMOVER ARESTA ==')
-    print(" ")
-
-    grafo_maior.printar_matriz_adjacencia()
-    grafo_maior.printar_matriz_indicencia()
-    grafo_maior.printar_lista_adjacencia()
-
-    grafo_maior.removerVertice(vD.get_rotulo())
-
-    print(" ")
-    print('== PASSOU 3 - REMOVER VERTICES ==')
-    print(" ")
-
-
-    print(grafo_maior.vertices)
-
-    grafo_maior.printar_matriz_adjacencia()
-    grafo_maior.printar_matriz_indicencia()
-    grafo_maior.printar_lista_adjacencia()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    print(grafo_grande.checar_articulacoes())
