@@ -35,24 +35,3 @@ if __name__ == "__main__":
 
 
 
-
-
-
-
-
-    print(f"Construindo um grafo com {quantidade_vertices} vértices...")
-    start_time = time.time()
-    grafo_grande = criar_grafo_grande(quantidade_vertices)
-    print(f"Grafo construído em {time.time() - start_time:.5f} segundos.")
-
-    print("Executando Fleury com Tarjan...")
-    start_time = time.time()
-    resultado_tarjan = grafo_grande.fleury_tarjan()
-    print(f"Algoritmo Fleury com Tarjan executado em {time.time() - start_time:.5f} segundos.")
-
-    print("Executando Fleury com Naive...")
-    start_time = time.time()
-    resultado_naive = grafo_grande.fleury_naive()
-    print(f"Algoritmo Fleury com Naive executado em {time.time() - start_time:.5f} segundos.")
-
-    print(grafo_grande.printar_lista_adjacencia())

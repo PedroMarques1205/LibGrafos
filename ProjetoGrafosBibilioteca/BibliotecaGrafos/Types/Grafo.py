@@ -67,6 +67,11 @@ class Grafo:
 
 
     def adicionarAresta(self, aresta: Aresta):
+
+        for a in self.arestas:
+            if a.get_rotulo() == aresta.get_rotulo():
+                raise ValueError(f"Erro: O vértice com o rótulo {aresta.get_rotulo()} já existe.")
+
         A1 = aresta.get_inicio()
         A2 = aresta.get_fim()
 
