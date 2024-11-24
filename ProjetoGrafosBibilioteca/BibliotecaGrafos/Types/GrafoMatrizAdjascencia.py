@@ -213,12 +213,22 @@ class GrafoMatrizAdjascencia:
             if (rotulo_vertice2, rotulo_vertice1) in self.arestas:
                 del self.arestas[(rotulo_vertice2, rotulo_vertice1)]
 
-    def set_ponderacao(self, rotulo, ponderacao):
+    def set_ponderacao_vertice(self, rotulo, ponderacao):
         for i, vertice in enumerate(self.vertices):
             if (vertice.get_rotulo() == rotulo):
                 vertice.set_ponderacao(ponderacao)
 
-    def set_rotulaco(self, rotulo, novoRotulo):
+    def set_rotulaco_vertice(self, rotulo, novoRotulo):
         for i, vertice in enumerate(self.vertices):
             if (vertice.get_rotulo() == rotulo):
                 vertice.set_rotulo(novoRotulo)
+
+    def set_ponderacao_aresta(self, rotulo, ponderacao):
+        for i, aresta in enumerate(self.arestas):
+            if (aresta.get_rotulo() == rotulo):
+                aresta.set_ponderacao(ponderacao)
+
+    def set_rotulacao_aresta(self, rotulo, novoRotulo):
+        for i, aresta in enumerate(self.arestas):
+            if (aresta.get_rotulo() == rotulo):
+                aresta.set_rotulo(novoRotulo)
