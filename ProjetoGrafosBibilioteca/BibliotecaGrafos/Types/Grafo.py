@@ -19,28 +19,28 @@ class Grafo:
 
     # MÉTODOS DA PARTE 1
 
-    def printar_matriz_adjacencia(self): # TESTADO OK
+    def printar_matriz_adjacencia(self):
         if self.checar_se_grafo_vazio():
             print("O grafo está vazio.")
             return
 
         self.matrizAdjacencia.printar_matriz_adjacencia()
 
-    def printar_lista_adjacencia(self): # TESTADO OK
+    def printar_lista_adjacencia(self):
         if self.checar_se_grafo_vazio():
             print("O grafo está vazio.")
             return
 
         self.listaAdjacencia.mostrar_lista_adjacencia()
 
-    def printar_matriz_indicencia(self): # TESTADO OK
+    def printar_matriz_indicencia(self):
         if self.checar_se_grafo_vazio():
             print("O grafo está vazio.")
             return
 
         self.matrizIncidencia.exibir_matriz()
 
-    def adicionarVertice(self, vertice: Vertice): # TESTADO OK
+    def adicionarVertice(self, vertice: Vertice):
         self.vertices.append(vertice)
         self.listaAdjacencia.adicionar_vertice(vertice)
         self.matrizIncidencia.adicionar_vertice(vertice)
@@ -281,20 +281,15 @@ class Grafo:
 
     def checar_pontes_naive(self):
         pontes = []
-
-        # Itera por todas as arestas do grafo
         for aresta in self.arestas:
-            u = aresta.get_inicio().get_rotulo()  # Rótulo do vértice de início
-            v = aresta.get_fim().get_rotulo()  # Rótulo do vértice de fim
+            u = aresta.get_inicio().get_rotulo()  
+            v = aresta.get_fim().get_rotulo()  
 
-            # Remover a aresta
             self.removerAresta(u, v)
 
-            # Verificar se o grafo ainda é conexo sem essa aresta
-            if not self.checar_se_simplesmente_conexo():  # Caso o grafo não seja mais conexo
-                pontes.append((u, v))  # Adiciona a aresta como uma ponte
+            if not self.checar_se_simplesmente_conexo():  
+                pontes.append((u, v))  
 
-            # Re-adiciona a aresta ao grafo
             self.adicionarAresta(aresta)
 
         return pontes
@@ -372,8 +367,7 @@ class Grafo:
             break
 
         caminho_formatado = " / ".join(
-            [f"{aresta.get_inicio().get_peso()} / {aresta.get_fim().get_peso()}" for aresta in
-             caminho])
+            [f"{aresta.get_inicio().get_peso()} / {aresta.get_fim().get_peso()}" for aresta in caminho])
         return caminho_formatado
 
     def verificar_grau_vertices(self):
