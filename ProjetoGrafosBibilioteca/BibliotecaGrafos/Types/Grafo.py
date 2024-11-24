@@ -136,13 +136,12 @@ class Grafo:
     def para_networkx(self):
         grafo = nx.DiGraph() if self.isDirecionado else nx.Graph()
 
-        # Adicionar os vértices ao grafo
-        for vertice in self.vertices:
-            grafo.add_node(vertice.valor_vertice)
+        vertices_unicos = set(self.vertices)
+        for vertice in vertices_unicos:
+            grafo.add_node(vertice.get_valor_vertice())
 
-        # Iterar pelas arestas e adicionar as conexões
         for aresta in self.arestas:
-            grafo.add_edge(aresta.get_inicio(), aresta.get_fim(), weight=aresta.get_peso())
+            grafo.add_edge(aresta.get_inicio().get_valor_vertice(), aresta.get_fim().get_valor_vertice(), weight=aresta.get_peso())
 
         return grafo
 
