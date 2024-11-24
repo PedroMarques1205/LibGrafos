@@ -224,11 +224,10 @@ class GrafoMatrizAdjascencia:
                 vertice.set_rotulo(novoRotulo)
 
     def set_ponderacao_aresta(self, rotulo, ponderacao):
-        for aresta in self.arestas:
-            if (aresta.get_rotulo() == rotulo):
-                aresta.set_ponderacao(ponderacao)
+        if rotulo in self.arestas:  # Verifica se o rótulo está no dicionário
+            aresta = self.arestas[rotulo]
+            aresta.set_ponderacao(ponderacao)
 
     def set_rotulacao_aresta(self, rotulo, novoRotulo):
-        for aresta in self.arestas:
-            if (aresta.get_rotulo() == rotulo):
-                aresta.set_rotulo(novoRotulo)
+        if rotulo in self.arestas:  # Verifica se o rótulo está no dicionário
+            self.arestas[novoRotulo] = self.arestas.pop(rotulo)  # Renomeia o rótulo da aresta

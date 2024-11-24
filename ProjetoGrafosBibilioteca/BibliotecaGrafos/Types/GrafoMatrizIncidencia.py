@@ -456,7 +456,7 @@ class GrafoMatrizIncidencia:
     def set_ponderacao_aresta(self, rotulo, ponderacao):
         for aresta in self.arestas:
             if (aresta.get_rotulo() == rotulo):
-                aresta.set_ponderacao(ponderacao)
+                aresta.set_peso(ponderacao)
 
     def set_rotulacao_aresta(self, rotulo, novoRotulo):
         for aresta in self.arestas:
