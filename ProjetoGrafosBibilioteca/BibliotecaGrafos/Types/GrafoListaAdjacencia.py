@@ -48,15 +48,15 @@ class GrafoListaAdjacencia:
         listasDeAdjacencia = []
         for vertice in self.vertices:
             arestasDeSaidaVertice = vertice.get_arestas_de_saida()
-            listaAdjacenciaDoVertice = []
+            listaAdjacenciaDoVertice = set()
 
             for aresta in arestasDeSaidaVertice:
-                listaAdjacenciaDoVertice.append(aresta.get_fim().get_peso())
+                listaAdjacenciaDoVertice.add(aresta.get_fim().get_rotulo())
 
-            listasDeAdjacencia.append(listaAdjacenciaDoVertice)
+            listasDeAdjacencia.append(list(listaAdjacenciaDoVertice))
 
         for i, vertice in enumerate(self.vertices):
-            print(f"Vértice {vertice.get_peso()}: {listasDeAdjacencia[i]}")
+            print(f"{vertice.get_rotulo()}: {listasDeAdjacencia[i]}")
 
     def set_ponderacao_vertice(self, rotulo, ponderacao):
         for i, vertice in enumerate(self.vertices):

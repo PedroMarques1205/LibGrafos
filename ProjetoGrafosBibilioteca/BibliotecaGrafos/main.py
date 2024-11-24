@@ -41,3 +41,5 @@ if __name__ == "__main__":
     start_time = time.time()
     resultado_naive = grafo_grande.fleury_naive()
     print(f"Algoritmo Fleury com Naive executado em {time.time() - start_time:.5f} segundos.")
+
+    print(grafo_grande.printar_lista_adjacencia())
