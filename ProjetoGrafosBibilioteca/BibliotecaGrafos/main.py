@@ -1,42 +1,46 @@
 from ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.Aresta import Aresta
 from ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.Grafo import Grafo
-from ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.GrafoMatrizIncidencia import GrafoMatrizIncidencia
 import time
 import sys
 
 from ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.Vertice import Vertice
 
+
+def criar_grafo_grande(quantidade_vertices):
+    grafo = Grafo("grafo_grande", False)
+
+    vertices = []
+    for i in range(quantidade_vertices):
+        vertice = Vertice(peso_vertice=str(i), rotulo=f"V{i}")
+        vertices.append(vertice)
+        grafo.adicionarVertice(vertice)
+
+    for i in range(quantidade_vertices - 1):
+        grafo.adicionarAresta(Aresta(vertices[i], vertices[i + 1], rotulo=f"e{i}", peso=1))
+
+    grafo.adicionarAresta(
+        Aresta(vertices[quantidade_vertices - 1], vertices[0], rotulo=f"e{quantidade_vertices - 1}", peso=1))
+
+    return grafo
+
 if __name__ == "__main__":
-    grafo_maior = Grafo("grafo_maior", False)  # Grafo não direcionado
+    sys.setrecursionlimit(100000000)
+    quantidade_vertices = 10000
 
-    # Criando os vértices
-    vA = Vertice(peso_vertice='1', rotulo='A')
-    vB = Vertice(peso_vertice='2', rotulo='B')
-    vC = Vertice(peso_vertice='3', rotulo='C')
-    vD = Vertice(peso_vertice='4', rotulo='D')
-    vE = Vertice(peso_vertice='5', rotulo='E')
-    vF = Vertice(peso_vertice='6', rotulo='F')
+    print(f"Construindo um grafo com {quantidade_vertices} vértices...")
+    start_time = time.time()
+    grafo_grande = criar_grafo_grande(quantidade_vertices)
+    print(f"Grafo construído em {time.time() - start_time:.5f} segundos.")
 
-    # Adicionando os vértices ao grafo
-    grafo_maior.adicionarVertice(vA)
-    grafo_maior.adicionarVertice(vB)
-    grafo_maior.adicionarVertice(vC)
-    grafo_maior.adicionarVertice(vD)
-    grafo_maior.adicionarVertice(vE)
-    grafo_maior.adicionarVertice(vF)
+    print("Executando Fleury com Tarjan...")
+    start_time = time.time()
+    resultado_tarjan = grafo_grande.fleury_tarjan()
+    print(f"Algoritmo Fleury com Tarjan executado em {time.time() - start_time:.5f} segundos.")
 
-    # Adicionando as arestas ao grafo
-    grafo_maior.adicionarAresta(Aresta(vA, vB, rotulo='e1', peso=1))
-    grafo_maior.adicionarAresta(Aresta(vB, vC, rotulo='e2', peso=1))
-    grafo_maior.adicionarAresta(Aresta(vC, vD, rotulo='e3', peso=1))
-    grafo_maior.adicionarAresta(Aresta(vD, vA, rotulo='e4', peso=1))
-
-    grafo_maior.adicionarAresta(Aresta(vA, vE, rotulo='e5', peso=1))
-    grafo_maior.adicionarAresta(Aresta(vE, vF, rotulo='e6', peso=1))
-    grafo_maior.adicionarAresta(Aresta(vF, vD, rotulo='e7', peso=1))
-    grafo_maior.adicionarAresta(Aresta(vD, vB, rotulo='e8', peso=1))
-
-    print(grafo_maior.fleury_tarjan())
+    print("Executando Fleury com Naive...")
+    start_time = time.time()
+    resultado_naive = grafo_grande.fleury_naive()
+    print(f"Algoritmo Fleury com Naive executado em {time.time() - start_time:.5f} segundos.")
 
 
 

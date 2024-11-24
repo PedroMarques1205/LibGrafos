@@ -193,10 +193,8 @@ class GrafoMatrizIncidencia:
             vertice = Vertice(peso_vertice=i, rotulo=f"V{i}")
             grafo.adicionar_vertice(vertice)
 
-        # Adicionar arestas com base em uma probabilidade
         for i in range(len(grafo.vertices)):
             for j in range(i + 1, len(grafo.vertices)):
-                # Condição para adicionar uma aresta
                 if random.random() < probabilidade_aresta:
                     inicio = grafo.vertices[i]
                     fim = grafo.vertices[j]
@@ -207,18 +205,15 @@ class GrafoMatrizIncidencia:
         return grafo
 
     def copiar_grafo(self):
-        # Cria um novo grafo, copiando o tipo de direção do grafo original
         novo_grafo = GrafoMatrizIncidencia(self.isDirecionado)
 
-        # Copia os vértices para o novo grafo
-        vertices_map = {}  # Mapeia os vértices antigos para os novos
+        vertices_map = {}
 
         for vertice in self.vertices:
             novo_vertice = Vertice(vertice.get_peso(), vertice.get_rotulo())
             novo_grafo.adicionar_vertice(novo_vertice)
             vertices_map[vertice] = novo_vertice
 
-        # Copia as arestas e conecta os vértices corretamente
         for aresta in self.arestas:
             inicio = vertices_map[aresta.get_inicio()]
             fim = vertices_map[aresta.get_fim()]
@@ -231,6 +226,46 @@ class GrafoMatrizIncidencia:
     def verificar_grau_vertices(self):
         for vertice in self.vertices:
             vertice.grau = len(vertice.get_arestas_de_saida()) + len(vertice.get_arestas_de_entrada())
+
+    def encontrar_pontes_naive(self):
+        """
+        Método naive para encontrar pontes no grafo.
+        Remove cada aresta e verifica se o grafo se desconecta.
+        """
+        pontes = []
+        for aresta in self.arestas:
+            # Cria uma cópia temporária da matriz de incidência e das arestas
+            matriz_backup = [linha[:] for linha in self.matriz_incidencia]
+            arestas_backup = self.arestas[:]
+            # Remove a aresta atual
+            self.remover_aresta(aresta)
+            # Verifica a conectividade
+            if not self.verificar_conectividade():
+                pontes.append(aresta)
+            # Restaura o estado original
+            self.matriz_incidencia = matriz_backup
+            self.arestas = arestas_backup
+        return pontes
+
+    def verificar_conectividade(self):
+        """
+        Verifica se o grafo é conectado usando busca em profundidade (DFS).
+        """
+        if not self.vertices:
+            return True  # Grafo vazio é considerado conectado
+        visitados = set()
+
+        def dfs(v):
+            visitados.add(v)
+            for aresta in v.get_arestas_de_saida() + v.get_arestas_de_entrada():
+                vizinho = aresta.get_fim() if aresta.get_inicio() == v else aresta.get_inicio()
+                if vizinho not in visitados:
+                    dfs(vizinho)
+
+        # Começa a DFS pelo primeiro vértice
+        dfs(self.vertices[0])
+        # Se todos os vértices foram visitados, o grafo é conectado
+        return len(visitados) == len(self.vertices)
 
     def fleury_naive(self):
         """

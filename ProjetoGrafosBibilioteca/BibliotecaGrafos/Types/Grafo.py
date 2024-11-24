@@ -246,15 +246,21 @@ class Grafo:
     # PARTE 2
 
     def checar_pontes_naive(self):
-
         pontes = []
 
-        for aresta in self.arestas[:]:
-            self.removerAresta(aresta.get_inicio().get_rotulo(), aresta.get_fim().get_rotulo())
+        # Itera por todas as arestas do grafo
+        for aresta in self.arestas:
+            u = aresta.get_inicio().get_rotulo()  # Rótulo do vértice de início
+            v = aresta.get_fim().get_rotulo()  # Rótulo do vértice de fim
 
-            if not self.checar_se_simplesmente_conexo():
-                pontes.append(aresta)
+            # Remover a aresta
+            self.removerAresta(u, v)
 
+            # Verificar se o grafo ainda é conexo sem essa aresta
+            if not self.checar_se_simplesmente_conexo():  # Caso o grafo não seja mais conexo
+                pontes.append((u, v))  # Adiciona a aresta como uma ponte
+
+            # Re-adiciona a aresta ao grafo
             self.adicionarAresta(aresta)
 
         return pontes
@@ -305,45 +311,9 @@ class Grafo:
         return pontes
 
     def fleury_naive(self):
-        """
-        Implementação do Método de Fleury utilizando encontrar_pontes_naive.
-        """
-        self.verificar_grau_vertices()
-        if len([v for v in self.vertices if v.grau % 2 != 0]) > 2:
-            raise Exception("O grafo não possui caminho euleriano.")
-
-        v_inicial = next((v for v in self.vertices if v.grau % 2 != 0), self.vertices[0])
-        caminho = []
-        arestas_restantes = self.arestas[:]
-
-        while arestas_restantes:
-            pontes = self.checar_pontes_naive()
-
-            # Iterar sobre todos os vértices do grafo
-            for vertice in self.vertices:  # Supondo que 'self.vertices' seja a lista de vértices no grafo
-                # Pegar as arestas de saída e de entrada de cada vértice
-                for aresta in vertice.get_arestas_de_saida() + vertice.get_arestas_de_entrada():
-                    # Verifica se a aresta é uma ponte e se há mais de uma aresta restante
-                    if aresta in pontes and len(arestas_restantes) > 1:
-                        continue  # Pula as pontes quando há mais de uma aresta restante
-
-                    caminho.append(aresta)
-                    # Atualiza o vértice inicial com base na aresta
-                    v_inicial = aresta.get_fim() if aresta.get_inicio() == v_inicial else aresta.get_inicio()
-
-                    # Remove a aresta da lista de arestas restantes
-                    if aresta in arestas_restantes:
-                        arestas_restantes.remove(aresta)
-
-        caminho_formatado = " / ".join(
-            [f"{aresta.get_inicio().get_peso()} / {aresta.get_fim().get_peso()}" for aresta in
-             caminho])
-        return caminho_formatado
+        return self.matrizIncidencia.fleury_naive()
 
     def fleury_tarjan(self):
-        """
-        Implementação do Método de Fleury utilizando encontrar_pontes_tarjan.
-        """
         self.verificar_grau_vertices()
         if len([v for v in self.vertices if v.grau % 2 != 0]) > 2:
             raise Exception("O grafo não possui caminho euleriano.")
@@ -355,19 +325,14 @@ class Grafo:
         while arestas_restantes:
             pontes = self.checar_pontes_tarjan()
 
-            # Iterar sobre todos os vértices do grafo
-            for vertice in self.vertices:  # Supondo que 'self.vertices' seja a lista de vértices no grafo
-                # Pegar as arestas de entrada e de saída de cada vértice
+            for vertice in self.vertices:
                 for aresta in vertice.get_arestas_de_saida() + vertice.get_arestas_de_entrada():
-                    # Verifica se a aresta é uma ponte e se há mais de uma aresta restante
                     if aresta in pontes and len(arestas_restantes) > 1:
-                        continue  # Pula as pontes quando há mais de uma aresta restante
+                        continue
 
                     caminho.append(aresta)
-                    # Atualiza o vértice inicial com base na aresta
                     v_inicial = aresta.get_fim() if aresta.get_inicio() == v_inicial else aresta.get_inicio()
 
-                    # Remove a aresta da lista de arestas restantes
                     if aresta in arestas_restantes:
                         arestas_restantes.remove(aresta)
 
