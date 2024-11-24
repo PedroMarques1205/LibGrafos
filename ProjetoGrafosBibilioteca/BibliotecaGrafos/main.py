@@ -9,9 +9,9 @@ from ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.Vertice import Vertice
 if __name__ == "__main__":
     grafo = Grafo("coisa", True)
 
-    vA = Vertice(ponderacao_vertice='A', rotulo='A')
-    vB = Vertice(ponderacao_vertice='B', rotulo='B')
-    vC = Vertice(ponderacao_vertice='C', rotulo='C')
+    vA = Vertice(peso_vertice='A', rotulo='A')
+    vB = Vertice(peso_vertice='B', rotulo='B')
+    vC = Vertice(peso_vertice='C', rotulo='C')
 
     grafo.adicionarVertice(vA)
     grafo.adicionarVertice(vB)

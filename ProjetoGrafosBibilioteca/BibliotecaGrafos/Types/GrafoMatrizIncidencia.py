@@ -184,7 +184,7 @@ class GrafoMatrizIncidencia:
 
         # Adicionar vértices
         for i in range(1, x + 1):
-            vertice = Vertice(ponderacao_vertice=i, rotulo=f"V{i}")
+            vertice = Vertice(peso_vertice=i, rotulo=f"V{i}")
             grafo.adicionar_vertice(vertice)
 
         # Adicionar arestas com base em uma probabilidade
@@ -427,7 +427,7 @@ class GrafoMatrizIncidencia:
 
         # Adicionar vértices
         for i in range(1, x + 1):
-            vertice = Vertice(ponderacao_vertice=i, rotulo=f"V{i}")
+            vertice = Vertice(peso_vertice=i, rotulo=f"V{i}")
             grafo.adicionar_vertice(vertice)
 
         # Adicionar arestas para garantir que o grafo seja euleriano (grau par)
@@ -443,13 +443,22 @@ class GrafoMatrizIncidencia:
 
         return grafo
 
-    def set_ponderacao(self, rotulo, ponderacao):
+    def set_ponderacao_vertice(self, rotulo, ponderacao):
         for i, vertice in enumerate(self.vertices):
-            if(vertice.get_rotulo() == rotulo):
+            if (vertice.get_rotulo() == rotulo):
                 vertice.set_ponderacao(ponderacao)
 
-
-    def set_rotulaco(self, rotulo, novoRotulo):
+    def set_rotulaco_vertice(self, rotulo, novoRotulo):
         for i, vertice in enumerate(self.vertices):
-            if(vertice.get_rotulo() == rotulo):
+            if (vertice.get_rotulo() == rotulo):
                 vertice.set_rotulo(novoRotulo)
+
+    def set_ponderacao_aresta(self, rotulo, ponderacao):
+        for i, aresta in enumerate(self.arestas):
+            if (aresta.get_rotulo() == rotulo):
+                aresta.set_ponderacao(ponderacao)
+
+    def set_rotulacao_aresta(self, rotulo, novoRotulo):
+        for i, aresta in enumerate(self.arestas):
+            if (aresta.get_rotulo() == rotulo):
+                aresta.set_rotulo(novoRotulo)

@@ -44,8 +44,8 @@ class Grafo:
         A1 = aresta.get_inicio()
         A2 = aresta.get_fim()
 
-        indice1 = next((i for i, vertice in enumerate(self.vertices) if vertice.ponderacao_vertice == A1.get_ponderacao_vertice()), None)
-        indice2 = next((i for i, vertice in enumerate(self.vertices) if vertice.ponderacao_vertice == A2.get_ponderacao_vertice()), None)
+        indice1 = next((i for i, vertice in enumerate(self.vertices) if vertice.peso_vertice == A1.get_ponderacao_vertice()), None)
+        indice2 = next((i for i, vertice in enumerate(self.vertices) if vertice.peso_vertice == A2.get_ponderacao_vertice()), None)
 
         if (indice1 == None or indice2 == None):
             raise ValueError("FOI AQUI QUE ESSE ERRO ESTOUROU.")
@@ -166,7 +166,7 @@ class Grafo:
 
         # Adicionar os vértices ao grafo
         for vertice in self.vertices:
-            grafo.add_node(vertice.ponderacao_vertice)
+            grafo.add_node(vertice.peso_vertice)
 
         # Iterar pelas arestas e adicionar as conexões
         for aresta in self.arestas:
