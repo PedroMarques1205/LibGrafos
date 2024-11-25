@@ -180,6 +180,7 @@ class Grafo:
 
         return True
 
+
     def checar_se_fortemente_conexo(self):
         def dfs(vertice, visitados, arestas_saida=True):
             visitados.add(vertice)

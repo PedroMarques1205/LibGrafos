@@ -41,12 +41,12 @@ class GrafoMatrizAdjascencia:
         if indice1 is None or indice2 is None:
             raise ValueError("Vértice não encontrado. (MA)")
 
-        self.matrizAdjacencia[indice1][indice2] = aresta.get_peso()
-        self.arestas[(aresta.get_inicio(), aresta.get_fim())] = aresta.get_peso()
+        self.matrizAdjacencia[indice1][indice2] = 1
+        self.arestas[(aresta.get_inicio(), aresta.get_fim())] = 1
 
         if not self.isDirecionado:
-            self.matrizAdjacencia[indice2][indice1] = aresta.get_peso()
-            self.arestas[(aresta.get_fim(), aresta.get_inicio())] = aresta.get_peso()
+            self.matrizAdjacencia[indice2][indice1] = 1
+            self.arestas[(aresta.get_fim(), aresta.get_inicio())] = 1
 
     def remover_aresta(self, aresta: Aresta):
         indice1 = self.retorna_vertice_existente(aresta.get_inicio().get_rotulo())
