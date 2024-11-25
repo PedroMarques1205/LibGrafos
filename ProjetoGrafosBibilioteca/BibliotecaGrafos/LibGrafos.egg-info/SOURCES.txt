@@ -1,5 +1,0 @@
-setup.py
-LibGrafos.egg-info/PKG-INFO
-LibGrafos.egg-info/SOURCES.txt
-LibGrafos.egg-info/dependency_links.txt
-LibGrafos.egg-info/top_level.txt
