@@ -2,7 +2,6 @@ from typing import List
 from ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.core.Aresta import Aresta
 from ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.core.Vertice import Vertice
 
-
 class GrafoMatrizAdjascencia:
     def __init__(self, isDirecionado=False):
         self.isDirecionado = isDirecionado

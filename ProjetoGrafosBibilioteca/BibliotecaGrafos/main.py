@@ -1,8 +1,6 @@
-from ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.core.Aresta import Aresta
-
+from ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.core.Aresta import Aresta1
 from ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.core.Grafo import Grafo
 from ProjetoGrafosBibilioteca.BibliotecaGrafos.Types.core.Vertice import Vertice
-import sys
 import time
 
 grafo = None
