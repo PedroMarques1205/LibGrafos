@@ -1,0 +1,9 @@
+Metadata-Version: 2.1
+Name: LibGrafos
+Version: 1.0.0
+Summary: Uma biblioteca para manipulação de Grafos feita em python
+Author: Pedro Henrique Marques de Oliveira
+Author-email: pedrophmo1205@gmail.com
+Classifier: Programming Language :: Python :: 3.11.4
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent

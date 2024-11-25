@@ -202,13 +202,23 @@ class Grafo:
         return len(visitados) == len(self.vertices)
 
     def checar_se_semifortemente_conexo(self):
-        grafo_nao_direcionado = Grafo(self.id,self.isDirecionado)
+        if not self.vertices:
+            return True
 
-        for vertice in self.vertices:
-            grafo_nao_direcionado.adicionarVertice(vertice.get_peso())
-        for aresta in self.arestas:
-            grafo_nao_direcionado.adicionarAresta(aresta)
-        return grafo_nao_direcionado.verificar_conectividade()
+        visitados = set()
+
+        def dfs(v):
+            visitados.add(v)
+            for aresta in v.get_arestas_de_saida():
+                if aresta.get_fim() not in visitados:
+                    dfs(aresta.get_fim())
+            for aresta in v.get_arestas_de_entrada():
+                if aresta.get_inicio() not in visitados:
+                    dfs(aresta.get_inicio())
+
+        dfs(self.vertices[0])
+
+        return len(visitados) == len(self.vertices)
 
     def checar_se_simplesmente_conexo(self):
         visitados = set()
